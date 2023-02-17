@@ -1,0 +1,11 @@
+cp .env.example .env
+composer install
+php artisan key:generate 
+cd React-test
+npm install
+npm run dev 
+________________________________________
+
+npm install yarn
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
+yarn create vite 
