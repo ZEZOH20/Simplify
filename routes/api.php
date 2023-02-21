@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\UserAuthenticationController;
+use App\Classes\CustomValidation;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+// Authentication sanctum
+Route::post('register',[UserAuthenticationController::class,'register'])->name('register');
+Route::group(['middelware'=>['auth:sanctum']],function(){
+    Route::post('login',[UserAuthenticationController::class,'login'])->name('login');
+});
+//---------
