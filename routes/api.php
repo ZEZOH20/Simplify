@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserAuthenticationController;
+use App\Http\Controllers\Api\CustomEmailVerificationRequest;
 use Illuminate\Foundation\Auth\EmailVerificationRequest; // custom EmailVerificationRequest rather than default that is work with unAutherize user
 //use App\Classes\CustomValidation;
 /*
