@@ -1,5 +1,5 @@
 
-##Clone your project steps
+## Clone your project steps
 1. Go to the folder application using cd command on your cmd or terminal.
 1. Run composer install on your cmd or terminal.
 1. Copy .env.example file to .env on the root folder. ...
