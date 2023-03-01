@@ -14,18 +14,20 @@ class UserAuthenticationController extends Controller
       
        //create user
         //be carful don't use $request->all() it 'll make your sytem unprotected
-       User::create([   
+       $user=User::create([   
         'name'=>$request->name,
         'email'=>$request->email,
         'password'=>Hash::make($request->password)
        ]);
 
+       $user->sendEmailVerificationNotification();
         
-        //create token 
-        dd($request);
+       return response(['successful registeration'],200);
+        
     }
     function login(AuthRequest $request){
 
+        
     }
 
 }
