@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserAuthenticationController;
-use App\Http\Controllers\Api\CustomEmailVerificationRequest;
+use App\Http\Requests\API\EmailVerificationRequest as CustomEmailVerificationRequest;
 use Illuminate\Foundation\Auth\EmailVerificationRequest; // custom EmailVerificationRequest rather than default that is work with unAutherize user
 //use App\Classes\CustomValidation;
 /*
@@ -36,7 +36,7 @@ Route::get('/email/verify', function () {
 })->middleware('auth:sanctum')->name('verification.notice');  
 
 //handle requests generated when the user clicks the email verification link that was emailed
-Route::get('/email/verify/{id}/{hash}', function ( EmailVerificationRequest $request) {
+Route::get('/email/verify/{id}/{hash}', function ( CustomEmailVerificationRequest $request) {
     $request->fulfill();
  
     return redirect('/home');

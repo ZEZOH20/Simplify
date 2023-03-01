@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Foundation\Auth;
+namespace App\Http\Requests\API;
 
 use App\Models\User;
 use Exception;
@@ -8,7 +8,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use Illuminate\Http\Request; // New code
-class CustomEmailVerificationRequest extends FormRequest //Custom EmailVerificationRequest Class after update
+class EmailVerificationRequest extends FormRequest //Custom EmailVerificationRequest Class after update
 {
     private User $user;
     /**
