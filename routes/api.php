@@ -21,15 +21,15 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest; // custom EmailVerifica
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-// Authentication sanctum
-Route::group(["prefex"=>'login'],function(){
+//*********Authentication**********
+Route::group(['prefix'=>'login'],function(){
     Route::post('/',[UserAuthenticationController::class,'login'])->name('login');
-    Route::get('/',function(){echo 'login page';})->name('login-view');
+    Route::get('/',function(){echo 'login page';})->name('view.login');
 });
 Route::post('register',[UserAuthenticationController::class,'register'])->name('register');
+//-------
 
-
-// Email Verification 
+//********Email Verification********* 
 
 //verified middleware redirect if user not verified
 Route::get('/email/verify', function () {
@@ -50,6 +50,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware('auth:sanctum')->name('verification.send');
 //---------
+
 Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::post('test',function(){
         echo 'email verified';
