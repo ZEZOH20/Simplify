@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,3 +37,7 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     });
 });
 
+
+
+
+Route::apiResource('/courses',CourseController::class)->middleware(['auth:sanctum','verified']);
