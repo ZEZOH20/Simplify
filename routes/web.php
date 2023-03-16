@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ImportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::prefix('/show')
+->controller(CourseController::class)
+->group(function()
+{
+    Route::get('/all','showAll');
+    Route::get('/{type}','showSelection');
+   
+});
+Route::get('/transform',[CourseController::class,'transform']);
+
+// Route::get('/show/{type}',[CourseController::class,'showSelection']);

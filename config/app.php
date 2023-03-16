@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Facade;
+use Maatwebsite\Excel\ExcelServiceProvider;
 
 return [
 
@@ -185,7 +186,6 @@ return [
         /*
          * Package Service Providers...
          */
-
         /*
          * Application Service Providers...
          */

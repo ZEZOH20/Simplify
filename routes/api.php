@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserAuthenticationController;
@@ -56,3 +57,7 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
         echo 'email verified';
     });
 });
+
+
+
+Route::apiResource('/courses',CourseController::class)->middleware(['auth:sanctum','verified']);

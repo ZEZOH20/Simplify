@@ -12,7 +12,7 @@ class AuthRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;  // xxxxxx
+        return false;  // xxxxxx
     }
 
     /**
