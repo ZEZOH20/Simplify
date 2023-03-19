@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserAuthenticationController;
 use App\Http\Requests\API\EmailVerificationRequest as CustomEmailVerificationRequest;
+
 use Illuminate\Foundation\Auth\EmailVerificationRequest; // custom EmailVerificationRequest rather than default that is work with unAutherize useruse Illuminate\Support\Facades\Password;
 
 use Illuminate\Support\Facades\Password;
@@ -41,6 +42,24 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware('auth:sanctum')->name('verification.send');
 //---------
+//Email verification OTP
+Route::group(["prefix"=>'/byEmail'],function(){
+    Route::post('/verify',[UserAuthenticationController::class,'byEmailverify'])->name('verifyByEmail');
+
+});
+Route::group(["prefix"=>'/byPhone'],function(){
+    Route::post('/',[UserAuthenticationController::class,'sendOtp'])->name('sendOtp');
+    Route::post('/verify',[UserAuthenticationController::class,'byPhoneVerify'])->name('compareOtp');
+    Route::group(["prefix"=>'/reset'],function(){
+        Route::post('/',[UserAuthenticationController::class,'byPhoneReset'])->name('compareOtp');
+        Route::post('/form',[UserAuthenticationController::class,'byPhoneResetPasswordForm'])->name('byPhoneResetPasswordForm');
+        Route::get('/',function(){
+            echo 'resetPasswordOtpView';
+        });
+    });
+    
+});
+//Email verification OTP
 
 //??????????????????????????????????????????????????????????? under work
 //***********Reset Password*********

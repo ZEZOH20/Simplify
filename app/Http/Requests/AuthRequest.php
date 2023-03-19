@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests;
 
-//use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\API\FormRequest;   // custom return json error rather than page (session) 
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+//use App\Http\Requests\API\FormRequest;   // custom return json error rather than page (session) 
 
 class AuthRequest extends FormRequest
 {
@@ -12,7 +15,7 @@ class AuthRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;  // xxxxxx
+        return true;  // xxxxxx
     }
 
     /**
@@ -24,7 +27,6 @@ class AuthRequest extends FormRequest
     {
         // 'name'=>'required'
         $routeName = $this->route()->getName();
-
         if ($routeName == 'register') {
             $validation_rules = [
                 'email' => [
@@ -39,6 +41,9 @@ class AuthRequest extends FormRequest
                 ],
                 'name' => [
                     'required'
+                ],
+                'phone_number'=>[
+                    'required','numeric','digits_between:10,12','unique:users'
                 ]
             ];
               
@@ -63,6 +68,12 @@ class AuthRequest extends FormRequest
         return [
            'password.max'=>'your password must less than 8'  
         ];
+    }
+ 
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+        ], 422));
     }
   
 }
