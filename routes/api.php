@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CourseController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,13 +31,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware'=>['auth:sanctum','verified']],function(){
-    Route::post('test',function(){
-        echo 'email verified';
-    });
+// ( home ) , ( dashboard ) page
+Route::group(['middleware'=>['auth:sanctum','verified','isAdmin']],function(){
+    Route::get('/dashboard',function(){ //dashboard
+        echo 'dashboard page';
+    })->name('dashboard');
 });
 
 
+Route::group(['middleware'=>['auth:sanctum','verified']],function(){
+    Route::post('test',function(){ //test
+        echo 'email verified';
+    });
+    Route::get('/home',function(){  //home
+        echo 'home page';
+    })->name('home');
+});
 
-
-Route::apiResource('/courses',CourseController::class)->middleware(['auth:sanctum','verified']);
