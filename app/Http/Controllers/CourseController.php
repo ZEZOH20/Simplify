@@ -14,8 +14,8 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         //
-        // dd($request);   
-        if(empty($request))
+        //dd($request);
+        if(empty($request['parameters']))  //update ??? empty($request)
         {
             $courses=Course::all();
             return new Coursecollection($courses) ;

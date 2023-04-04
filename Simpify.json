@@ -366,20 +366,27 @@
 							"mode": "formdata",
 							"formdata": [
 								{
+									"key": "otp",
+									"value": "8155",
+									"type": "text"
+								},
+								{
 									"key": "phone_number",
 									"value": "1234567891",
+									"description": "change phone wiith your vonage number",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{SERVER_URL}}/api/verifyByPhone",
+							"raw": "{{SERVER_URL}}/api/byPhone/reset",
 							"host": [
 								"{{SERVER_URL}}"
 							],
 							"path": [
 								"api",
-								"verifyByPhone"
+								"byPhone",
+								"reset"
 							]
 						}
 					},

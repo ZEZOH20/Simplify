@@ -10,6 +10,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AuthRequest extends FormRequest
 {
+    var $validation_rules=[];
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,7 +29,7 @@ class AuthRequest extends FormRequest
         // 'name'=>'required'
         $routeName = $this->route()->getName();
         if ($routeName == 'register') {
-            $validation_rules = [
+            $this->validation_rules = [
                 'email' => [
                     'required', 'max:255', 'email ', 'unique:users'
                 ],
@@ -47,11 +48,11 @@ class AuthRequest extends FormRequest
                 ]
             ];
               
-            return $validation_rules;
+            return $this->validation_rules;
            
         }
         //else login
-        $validation_rules = [
+        $this->validation_rules = [
             'email' => [
                 'required', 'max:255', 'email ',
             ],
@@ -60,7 +61,7 @@ class AuthRequest extends FormRequest
             ],
         ];
 
-        return $validation_rules;
+        return $this->validation_rules;
     }
 
     public function messages() //custom error messages

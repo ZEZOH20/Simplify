@@ -9,9 +9,12 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserAuthenticationController extends Controller
 {
+    use \App\Classes\CustomResponse;
+
     function register(AuthRequest $request)
     {   //validation - check validation pass - check if user exist
 
@@ -21,12 +24,14 @@ class UserAuthenticationController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_number
+            'phone_number' => $request->phone_number,
         ]);
 
         $user->sendEmailVerificationNotification();
 
-        return response(['successful registeration'], 200);
+        return $this->success(
+            'successful registeration'
+        );
     }
     function login(AuthRequest $request)
     {
@@ -40,22 +45,28 @@ class UserAuthenticationController extends Controller
             //return redirect()->route('home');
         }
 
-
-        return response(['message' => 'user not register before or check your email or password'], 200);
+        return $this->success('user not register before or check your email or password');
     }
+
+
+    function logout(Request $request){
+        // Revoke the token that was used to authenticate the current request...
+        $request->user()->currentAccessToken()->delete();
+        return $this->success('user successfully logout');
+    }
+
 
     function byEmailverify(OtpRequest $request)
     {
         
         $user = User::where('email', $request->email)->first();
           //you don't need to send email if user already verified his/her email  
-        if ($user->email_verified_at) return response(['your email is already verified'], 200);
-
+        if ($user->email_verified_at) return $this->failure('your email is already verified');
         if (!$user) {
-            return response(['message' => 'user not register to verify his email']);
+            return $this->failure('user not register to verify his email');
         }
         $user->sendEmailVerificationNotification();
-        return response(['email verification messsage succesfully sended check your inbox']);
+        return $this->success('email verification messsage succesfully sended check your inbox');
     }
     //display otp page
     //sms 
@@ -71,17 +82,18 @@ class UserAuthenticationController extends Controller
 
         return $message;
     }
+    // ?????????? add to here 
     //send sms
     function sendOtp(OtpRequest $request)
     {
 
         $user = User::where('phone_number', $request->phone_number)->first();
         if (!$user) {
-            return response(['message' => 'user with this phone number doesn\'t exist try with different phone ore register again']);
+            return $this->failure('user with this phone number doesn\'t exist try with different phone ore register again');
         }
 
         //you don't need to send SMS if user already verified his/her email  
-        if ($user->email_verified_at) return response(['your email is already verified'], 200);
+        if ($user->email_verified_at) return $this->success('your email is already verified');
 
         $otp = rand(1000, 9000);
         $phone = $user->phone_number;
@@ -94,9 +106,10 @@ class UserAuthenticationController extends Controller
                 'otp'=>$otp
             ]);
             $user->save();
-            return response(['The message was sent successfully'], 200);
+            return $this->success('The message was sent successfully');
         } else {
-            return response(['The message failed with status:'], $message->getStatus());
+            return $this->failure('The message failed with status:',[],$message->getStatus());
+            
         }
         
  
@@ -124,13 +137,13 @@ class UserAuthenticationController extends Controller
 
         $user=User::where('phone_number',$request->phone_number)->first();
         if (!$user){
-            return response(['message' => 'user with this phone number doesn\'t exist try with different phone or register again']);
+            return $this->failure('user with this phone number doesn\'t exist try with different phone or register again');
         } 
         if(!($user->otp&&$user->otp_sms_time)){
-            return response(['message' => 'user otp doesn\'t send to mobile please send sms again']);
+            return $this->failure('user otp doesn\'t send to mobile please send sms again');
         }
         if($user->email_verified_at){
-            return response(['your email is already verified'], 200);//you don't need to send email if user already verified his/her email
+            return $this->success('your email is already verified');//you don't need to send email if user already verified his/her email
         } 
 
         $status=$this->compareOtp($request,$user);
@@ -142,7 +155,7 @@ class UserAuthenticationController extends Controller
             $user->save();
             return response(['message'=>'your email verified Successfully','otp'=>$user->otp]);
         }
-        return response(['message'=>'failed verification your entered code doesn\'t match sms sended code or 3 minutes out try verify by phone again']);
+        return $this->failure('failed verification your entered code doesn\'t match sms sended code or 3 minutes out try verify by phone again');
     }
  //compare otp && resetPassword
  function byPhoneReset(OtpRequest $request)

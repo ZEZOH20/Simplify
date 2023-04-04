@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'email_verified_at',
         'phone_number',
+        'type',
         'otp',
         'otp_sms_time',
         'otp_status',
@@ -55,7 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
   
-    public function routeNotificationForVonage($notification)
+    public function routeNotificationForVonage($notification)  // ??????????? 
     {
         return $this->phone_number;
     }

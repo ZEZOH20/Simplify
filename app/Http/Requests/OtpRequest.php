@@ -8,6 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class OtpRequest extends FormRequest
 {
+    var $validation_rules = [] ;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,19 +26,19 @@ class OtpRequest extends FormRequest
     {
         $routeName = $this->route()->getName();
         if($routeName=='byEmailverify'){
-            $validation_rules = [
+            $this->validation_rules = [
                 'email'=>[
                     'required','email','max:255'
                     ]
             ];
         }else if($routeName=='sendOtp'){
-            $validation_rules = [
+            $this->validation_rules = [
                 'phone_number'=>[
                     'required','numeric','digits_between:10,12'
                 ]
             ];
         }else if($routeName=='compareOtp'){
-            $validation_rules = [
+            $this->validation_rules = [
                 'phone_number'=>[
                     'required','numeric','digits_between:10,12'
                 ],
@@ -46,7 +47,7 @@ class OtpRequest extends FormRequest
                 ]
             ];
         }else if($routeName=='byPhoneResetPasswordForm'){
-            $validation_rules = [
+            $this->validation_rules = [
                 'password' => [
                     'required', 'max:8'
                 ],
@@ -55,7 +56,7 @@ class OtpRequest extends FormRequest
                 ],
             ];
         }
-        return  $validation_rules;
+        return  $this->validation_rules;
     }
 
     protected function failedValidation(Validator $validator)
