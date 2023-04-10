@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             StudentSeeder::class,
             CourseStudentSeeder::class,
             FieldSeeder::class,
+            FieldStudentSeeder::class,
+            CourseFieldSeeder::class,
         ]);
         
     }
