@@ -12,7 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->id();
+            $table->id(); 
+            $table->unsignedInteger('t_credit');
+            $table->unsignedDouble('cgpa');
+            $table->unsignedInteger('elec_sim');
+            $table->unsignedInteger('man_sim');
+            $table->unsignedInteger('elec_univ');
+            $table->unsignedInteger('man_univ');
+            $table->unsignedInteger('level');
+            $table->foreignId('user_id')->unique()->constrained('users')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
             $table->timestamps();
         });
     }

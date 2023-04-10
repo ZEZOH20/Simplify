@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Pages\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,8 +43,6 @@ Route::group(['middleware'=>['auth:sanctum','verified']],function(){
     Route::post('test',function(){ //test
         echo 'email verified';
     });
-    Route::get('/home',function(){  //home
-        echo 'home page';
-    })->name('home');
+    Route::get('/home',[HomeController::class,'show'])->name('home'); //home
 });
 
