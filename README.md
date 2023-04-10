@@ -7,6 +7,7 @@
 1. Run php artisan key:generate.
 1. Run php artisan migrate.
 1. Run php artisan serve.
+1. Run php artisan db:seed --class=DatabaseSeeder
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
