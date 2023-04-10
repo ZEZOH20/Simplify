@@ -14,13 +14,13 @@ class StudentSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1  unique
-
-       // Create 10 records of customers
-     User::factory(3)->create()->each(function ($user) {
+        // 1  unique one to one relationShip
+     $student = Student::factory()->make();
+       
+     //one to one user student
+     User::factory()->create()->each(function ($user) use ($student) {
         // Seed the relation with one address
-        $student = Student::factory()->make();
-        $user->student()->save($student);    
+        $user->student()->save($student);
     });
     
     }

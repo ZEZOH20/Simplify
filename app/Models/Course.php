@@ -29,4 +29,8 @@ class Course extends Model
     public function field(){
         return $this->belongsToMany(Field::class)->withTimestamps();
        }
+
+    public function course(){
+        return $this->hasMany($this);
+    }   
 }
