@@ -30,7 +30,12 @@ class Course extends Model
         return $this->belongsToMany(Field::class)->withTimestamps();
        }
 
-    public function course(){
-        return $this->hasMany($this);
-    }   
+    public function prereq(){
+        // return $this->hasMany($this);
+        return $this->belongsToMany(Course::class, 'course_prereq','prereq_id','course_id');
+        // return $this->belongsToMany(Post::class, 'related_posts', 'post_id', 'related_id');
+    }
+    public function has_prereq(){
+        return $this->belongsToMany(Course::class, 'course_prereq','course_id','prereq_id');
+    }      
 }

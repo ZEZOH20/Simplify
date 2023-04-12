@@ -19,9 +19,9 @@ return new class extends Migration
             $table->integer('credit_hours');
             $table->string('course_type');
             $table->string('brief_info');
-            $table->foreignId('course_id')->nullable()->constrained()
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+            // $table->foreignId('course_id')->nullable()->constrained()
+            // ->onDelete('cascade')
+            // ->onUpdate('cascade');
         });
     }
 

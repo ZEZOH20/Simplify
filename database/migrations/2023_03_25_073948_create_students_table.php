@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id(); 
+            $table->enum('sex',['male','female']);
+            $table->string('img')->nullable();
             $table->unsignedInteger('t_credit');
             $table->unsignedDouble('cgpa');
             $table->unsignedInteger('elec_sim');
