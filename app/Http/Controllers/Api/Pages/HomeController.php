@@ -12,9 +12,10 @@ class HomeController extends Controller
     function show(){
         $user =Auth::user();
     
+    //    dd(Course::first());
+         
         return new HomeResource($user);
         // return new HomeCollection($user->student->course);
-
         //  return  HomeResource::collection($user->student->course);
         // return  new HomeResource($user->student->course);
         // return  HomeResource::make($user->student);

@@ -17,7 +17,7 @@ class FieldResource extends JsonResource
         return [
             'name'=>$this->name,
             'description'=>$this->description,
-            'related_fields_count'=> '',
+            'sub_fields'=>FieldResource::collection($this->whenLoaded('sub_fields')),
         ];
     }
 }

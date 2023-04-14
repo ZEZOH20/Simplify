@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+            // $table->unsignedBigInteger('sub_fields')->nullable();
+            $table->foreignId('field_id')->nullable()->constrained()
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
             $table->timestamps();
         });
     }

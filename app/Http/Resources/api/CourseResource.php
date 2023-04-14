@@ -19,7 +19,10 @@ class CourseResource extends JsonResource
             'name' => $this->name ,
             'credit_hours' =>$this->credit_hours ,
             'brief_info'=>$this->brief_info ,
-            "type"=>$this->course_type
+            "type"=>$this->course_type,
+            'prereq'=> CourseResource::collection($this->whenLoaded('prereq')),
+            // 'prereq'=>$this->prereq
+            
         ];
     }
 }

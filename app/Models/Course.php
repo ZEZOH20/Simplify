@@ -17,6 +17,7 @@ class Course extends Model
         'credit_hours',
         'brief_info'
     ];
+// course has many registerded students 
     public function student(){
         return $this->belongsToMany(Student::class)->withPivot(
             'gpa',
@@ -26,16 +27,17 @@ class Course extends Model
         )->withTimestamps();
     }
 
+    // course has many realated fields
     public function field(){
         return $this->belongsToMany(Field::class)->withTimestamps();
        }
 
+// course has many prerequest coursers
     public function prereq(){
-        // return $this->hasMany($this);
-        return $this->belongsToMany(Course::class, 'course_prereq','prereq_id','course_id');
-        // return $this->belongsToMany(Post::class, 'related_posts', 'post_id', 'related_id');
+        return $this->hasMany(Course::class);
     }
-    public function has_prereq(){
-        return $this->belongsToMany(Course::class, 'course_prereq','course_id','prereq_id');
+// prerequest course belongs to course 
+    public function prereq_related_to(){
+        return $this->belongsTo(Course::class,'course_id');
     }      
 }

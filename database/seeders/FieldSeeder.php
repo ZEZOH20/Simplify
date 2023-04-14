@@ -16,7 +16,12 @@ class FieldSeeder extends Seeder
     public function run(): void
     {
       $fields =Field::factory(3)->create();
-        
+      
+      $fields->each(function($field){
+          $field->sub_fields()->saveMany(
+            Field::factory(2)->create()
+          );
+      });
       // students already created from StudentSeeder
       //many to many fields  Students
       Student::all()->each(function($student) use ($fields){
@@ -27,6 +32,7 @@ class FieldSeeder extends Seeder
       Course::all()->each(function($course) use ($fields){
         $course->field()->saveMany($fields);
      }); 
+      
     }
 
 }
