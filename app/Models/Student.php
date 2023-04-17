@@ -34,7 +34,11 @@ class Student extends Model
     }
 
     public function field(){
-        return $this->belongsToMany(Field::class)->withTimestamps();
+        return $this->belongsToMany(Field::class)->withPivot(
+            'progress',
+            'active',
+            'panding',
+        )->withTimestamps();
        }
 
 }

@@ -13,10 +13,15 @@ class Field extends Model
    protected $fillable =[
     'name',
     'description',
+    'field_id'
    ];
    
    public function student(){
-    return $this->belongsToMany(Student::class)->withTimestamps();
+    return $this->belongsToMany(Student::class)->withPivot(
+        'progress',
+        'active',
+        'panding',
+    )->withTimestamps();
    }
    public function course(){
     return $this->belongsToMany(Course::class)->withTimestamps();

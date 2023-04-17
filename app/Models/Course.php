@@ -15,7 +15,8 @@ class Course extends Model
         'course_code',
         'course_type',
         'credit_hours',
-        'brief_info'
+        'brief_info' ,
+        'course_id'
     ];
 // course has many registerded students 
     public function student(){

@@ -16,7 +16,7 @@ class HomeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-       
+     
         // dd(Field::first()->sub_fields());
         // return parent::toArray($request);
         return [
@@ -27,8 +27,11 @@ class HomeResource extends JsonResource
                 'sex'=>$this->student->sex,
                 'img'=>$this->student->img,
             ],
-            "fields" => FieldResource::collection(Field::with('sub_fields')->get()),
-            "courses" => CourseResource::collection(Course::with('prereq')->get()),
+            "fields" => FieldResource::collection(Field::where('field_id','=',null)->get()),
+            
+            "student_fields_progress"=> FieldResource::collection($this->student->field()
+                                            ->where('fields.field_id','=',null)->get()),
+          //->where('field_student.student_id','=', $this->student->id)->get()), 
         ];
     }
 }

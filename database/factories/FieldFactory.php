@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use function PHPUnit\Framework\isInfinite;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Field>
  */
