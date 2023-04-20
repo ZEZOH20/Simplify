@@ -20,9 +20,12 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained()
             ->onDelete('cascade')
             ->onUpdate('cascade');
-            $table->foreignId('course_id')->constrained()
+
+            $table->bigInteger('course_code')->unsigned();
+            $table->foreign('course_code')->references('course_code')->on('courses')
             ->onDelete('cascade')
             ->onUpdate('cascade');
+            
             $table->timestamps();
         });
     }

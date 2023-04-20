@@ -16,11 +16,10 @@ class CourseFieldImport implements ToModel,WithHeadingRow
     public function model(array $row)
     { 
               
-            $course = Course::find($row["course_id"]);
-           
-            $course->field()->attach($row['field_id'],[
-                'course_id'=>$row['course_id'],
-                'field_id'=>$row['field_id'],
+            $course = Course::find($row["course_code"]);
+            $course->field()->attach($row['field_name'],[
+                'course_code'=>$row['course_code'],
+                'field_name'=>$row['field_name'],
            ]);
        
        

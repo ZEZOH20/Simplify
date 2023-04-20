@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fields', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+
+            $table->string('name',155);
+            $table->primary('name');
             $table->string('description');
-            $table->foreignId('field_id')->nullable()->constrained()
+            $table->string('sub_field_name',155)->nullable();
+            $table->foreign('sub_field_name')->references('name')->on('fields')
             ->onDelete('cascade')
             ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

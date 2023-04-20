@@ -25,16 +25,16 @@ class Student extends Model
     }
 
     public function course(){
-        return $this->belongsToMany(Course::class)->withPivot(
+        return $this->belongsToMany(Course::class,'course_student','student_id', 'course_code')->withPivot(
             'gpa',
             'score',
             'grade_point',
-            'year'
+            'year',
         )->withTimestamps();
     }
 
     public function field(){
-        return $this->belongsToMany(Field::class)->withPivot(
+        return $this->belongsToMany(Field::class,'field_student','student_id','field_name')->withPivot(
             'progress',
             'active',
             'panding',

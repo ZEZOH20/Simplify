@@ -10,14 +10,18 @@ class Field extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'name';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
    protected $fillable =[
     'name',
     'description',
-    'field_id'
+    'sub_field_name'
    ];
    
    public function student(){
-    return $this->belongsToMany(Student::class)->withPivot(
+    return $this->belongsToMany(Student::class,'field_student','field_name','student_id')->withPivot(
         'progress',
         'active',
         'panding',
@@ -29,10 +33,10 @@ class Field extends Model
 
    // field has many sub fields
    public function sub_fields(){
-    return $this->hasMany(Field::class);
+    return $this->hasMany(Field::class,'sub_field_name');
    }
    // field has many sub fields
    public function field_related_to(){
-    return $this->belongsTo(Field::class,'field_id');
+    return $this->belongsTo(Field::class,'sub_field_name');
    }
 }
