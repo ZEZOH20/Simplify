@@ -12,16 +12,6 @@
 				{
 					"name": "signUp",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{SANCTUM_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -52,17 +42,22 @@
 								},
 								{
 									"key": "email",
-									"value": "zia@gmail.com",
+									"value": "ziad@gmail.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "12345678",
+									"value": "1234567",
 									"type": "text"
 								},
 								{
 									"key": "password_confirm",
-									"value": "12345678",
+									"value": "1234567",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "201091025315",
 									"type": "text"
 								}
 							]
@@ -112,7 +107,7 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "ahmed@gmail.com",
+									"value": "ziad@gmail.com",
 									"type": "text"
 								},
 								{
@@ -143,7 +138,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{SANCTUM_TOKEN}}",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -172,35 +167,21 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "name",
-									"value": "ziad",
-									"type": "text"
-								},
-								{
 									"key": "email",
-									"value": "zia@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "12345678",
-									"type": "text"
-								},
-								{
-									"key": "password_confirm",
-									"value": "12345678",
+									"value": "ziad@gmail.com",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{SERVER_URL}}/api/register",
+							"raw": "{{SERVER_URL}}/api/byEmail/verify",
 							"host": [
 								"{{SERVER_URL}}"
 							],
 							"path": [
 								"api",
-								"register"
+								"byEmail",
+								"verify"
 							]
 						}
 					},
@@ -255,19 +236,19 @@
 							"formdata": [
 								{
 									"key": "phone_number",
-									"value": "1234567891",
+									"value": "201091025315",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{SERVER_URL}}/api/verifyByPhone",
+							"raw": "{{SERVER_URL}}/api/byPhone",
 							"host": [
 								"{{SERVER_URL}}"
 							],
 							"path": [
 								"api",
-								"verifyByPhone"
+								"byPhone"
 							]
 						}
 					},
@@ -310,20 +291,26 @@
 							"mode": "formdata",
 							"formdata": [
 								{
+									"key": "otp",
+									"value": "4687",
+									"type": "text"
+								},
+								{
 									"key": "phone_number",
-									"value": "1234567891",
+									"value": "201091025315",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{SERVER_URL}}/api/verifyByPhone",
+							"raw": "{{SERVER_URL}}/api/byPhone/verify",
 							"host": [
 								"{{SERVER_URL}}"
 							],
 							"path": [
 								"api",
-								"verifyByPhone"
+								"byPhone",
+								"verify"
 							]
 						}
 					},
@@ -429,20 +416,33 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "phone_number",
-									"value": "1234567891",
+									"key": "password",
+									"value": "1234had",
+									"type": "text"
+								},
+								{
+									"key": "password_confirm",
+									"value": "1234had",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "8155",
+									"description": "hidden input",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{SERVER_URL}}/api/verifyByPhone",
+							"raw": "{{SERVER_URL}}/api/byPhone/reset/form",
 							"host": [
 								"{{SERVER_URL}}"
 							],
 							"path": [
 								"api",
-								"verifyByPhone"
+								"byPhone",
+								"reset",
+								"form"
 							]
 						}
 					},
@@ -475,14 +475,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{SERVER_URL}}/api/verify/email",
+							"raw": "{{SERVER_URL}}/api/email/verification-notification",
 							"host": [
 								"{{SERVER_URL}}"
 							],
 							"path": [
 								"api",
-								"verify",
-								"email"
+								"email",
+								"verification-notification"
 							],
 							"query": [
 								{
@@ -494,11 +494,196 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SANCTUM_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER_URL}}/api/logout",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"api",
+								"logout"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "email",
+			"name": "Authorize & Verified",
+			"item": [
+				{
+					"name": "Home",
+					"item": [
+						{
+							"name": "Student",
+							"item": [
+								{
+									"name": "/student/create",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "/students/create",
+											"path": [
+												"students",
+												"create"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "home",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{SANCTUM_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{SERVER_URL}}/api/home",
+									"host": [
+										"{{SERVER_URL}}"
+									],
+									"path": [
+										"api",
+										"home"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "courses",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SANCTUM_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{SERVER_URL}}/api/courses?credit_hours=2",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"api",
+								"courses"
+							],
+							"query": [
+								{
+									"key": "credit_hours",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dashboard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SANCTUM_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{SERVER_URL}}/api/dashboard",
+							"host": [
+								"{{SERVER_URL}}"
+							],
+							"path": [
+								"api",
+								"dashboard"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -526,40 +711,6 @@
 					"path": [
 						"api",
 						"test"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "home",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{SANCTUM_TOKEN}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{SERVER_URL}}/api/home",
-					"host": [
-						"{{SERVER_URL}}"
-					],
-					"path": [
-						"api",
-						"home"
 					]
 				}
 			},
@@ -594,6 +745,24 @@
 					"path": [
 						"api",
 						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "import courses from excell",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER_URL}}/api/import",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"path": [
+						"api",
+						"import"
 					]
 				}
 			},

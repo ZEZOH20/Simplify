@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notification;
 class User extends Authenticatable implements MustVerifyEmail 
 {
@@ -55,7 +56,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-  
+   // one to one relation between student and user
+   public function student(){
+     return $this->hasOne(Student::class);
+   }
+
     public function routeNotificationForVonage($notification)  // ??????????? 
     {
         return $this->phone_number;

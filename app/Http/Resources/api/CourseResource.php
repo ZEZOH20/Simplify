@@ -15,11 +15,14 @@ class CourseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'courseCode'=> $this->course_code,
+            'course_code'=> $this->course_code,
             'name' => $this->name ,
-            'creditHours' =>$this->credit_hours ,
-            'briefInfo'=>$this->brief_info ,
-            "type"=>$this->course_type
+            'credit_hours' =>$this->credit_hours ,
+            'brief_info'=>$this->brief_info ,
+            "type"=>$this->course_type,
+            'prereq'=> CourseResource::collection($this->whenLoaded('prereq')),
+            // 'prereq'=>$this->prereq
+            
         ];
     }
 }
