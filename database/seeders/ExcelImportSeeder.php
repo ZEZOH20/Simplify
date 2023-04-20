@@ -22,6 +22,7 @@ class ExcelImportSeeder extends Seeder
         Excel::import(new CourseFieldImport,public_path('Excel\course_field.xlsx'));
         Excel::import(new PrereqCourseImport,public_path('Excel\courses.xlsx'));
         Excel::import(new RelatedFieldImport,public_path('Excel\fields.xlsx'));
+     
 
     }
 }

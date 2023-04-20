@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->foreignId('field_id')->nullable()->constrained();
-            // $table->foreignId('field_id')->nullable()->constrained()
-            // ->onDelete('cascade')
-            // ->onUpdate('cascade');
+            $table->foreignId('field_id')->nullable()->constrained()
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
             $table->timestamps();
         });
     }
