@@ -17,6 +17,7 @@ class Student extends Model
         'elec_univ',
         'man_univ',
         'level', 
+        'collage_id',
     ];
 
      // one to one relation between student and user
@@ -30,6 +31,7 @@ class Student extends Model
             'score',
             'grade_point',
             'year',
+            'status',
         )->withTimestamps();
     }
 

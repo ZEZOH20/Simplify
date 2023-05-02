@@ -45,6 +45,12 @@ class AuthRequest extends FormRequest
                 ],
                 'phone_number'=>[
                     'required','numeric','digits_between:10,12','unique:users'
+                ],
+                'collage_id'=>[
+                     'required','numeric','min:203000','unique:students'
+                ],
+                'gender'=>[
+                    'required','string'
                 ]
             ];
               

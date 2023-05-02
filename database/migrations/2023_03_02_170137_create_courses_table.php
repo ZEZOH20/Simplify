@@ -14,7 +14,8 @@ return new class extends Migration
     Schema::create('courses', function (Blueprint $table) {
         $table->bigInteger('course_code')->unsigned();
         $table->primary('course_code');
-        
+        $table->enum('status',['available','unavailable'])->default('unavailable'); 
+
         $table->bigInteger('prereq_code')->unsigned()->nullable();
         $table->foreign('prereq_code')->references('course_code')->on('courses')
         ->onUpdate('cascade')

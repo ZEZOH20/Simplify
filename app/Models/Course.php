@@ -28,6 +28,7 @@ class Course extends Model
             'score',
             'grade_point',
             'year',
+            'status',
         )->withTimestamps();
     }
 
@@ -44,4 +45,5 @@ class Course extends Model
     public function prereq_related_to(){
         return $this->belongsTo(Course::class,'prereq_code');
     }      
+    
 }
