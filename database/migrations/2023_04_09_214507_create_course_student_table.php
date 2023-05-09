@@ -12,11 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('course_student', function (Blueprint $table) {
-            $table->double('gpa')->nullable();
-            $table->integer('score')->nullable();
-            $table->integer('grade_point')->nullable();
-            $table->date('year')->nullable();
-            $table->enum('status',['active','finshed'])->default('active');
+            $table->double('score')->nullable();
+            $table->enum('term',[1,2,3,4,5,6,7,8]); //term numbers 8 because sim student must complete 4 years to graduate
+            $table->enum('status',['active','finshed','failed'])->default('active');
             
             $table->foreignId('student_id')->constrained()
             ->onDelete('cascade')

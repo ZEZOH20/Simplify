@@ -12,6 +12,14 @@ class Student extends Model
     protected $fillable = [
         't_credit',
         'cgpa',
+        'gpa_t1',
+        'gpa_t2',
+        'gpa_t3',
+        'gpa_t4',
+        'gpa_t5',
+        'gpa_t6',
+        'gpa_t7',
+        'gpa_t8',
         'elec_sim',
         'man_sim',
         'elec_univ',
@@ -27,10 +35,8 @@ class Student extends Model
 
     public function course(){
         return $this->belongsToMany(Course::class,'course_student','student_id', 'course_code')->withPivot(
-            'gpa',
             'score',
-            'grade_point',
-            'year',
+            'term',
             'status',
         )->withTimestamps();
     }

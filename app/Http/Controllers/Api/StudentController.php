@@ -7,10 +7,14 @@ use App\Http\Resources\api\CourseResource;
 use App\Models\Course;
 use  App\Http\Requests\Student\StudentRegisterCourseRequest;
 use \App\Classes\SimStandardList;
+use \App\Classes\GpaCalculator;
+use App\Http\Controllers\Api\GpaCalculatorController;
+use Illuminate\Http\Request;
+
 
 class StudentController extends Controller
 {
-   use SimStandardList;
+   use SimStandardList, GpaCalculator;
 
    public function avaliableCourse()
    {
@@ -26,14 +30,14 @@ class StudentController extends Controller
       foreach ($availableCourses as $course) {
          if ($course->prereq_code) {
             $registerBefore = auth()->user()->student->course()->wherePivot('course_code', $course->prereq_code)->first();
-            if (!$registerBefore) { //logic error in registerBefore
+            if (!$registerBefore || $registerBefore->pivot->status == 'failed') {
                $availableCourses->forget($itemKey);
             }
          }
          $itemKey++;
       }
       // subtract student registered courses finshed and active from availableCourses
-      $studentRegisteredCourses = auth()->user()->student->course; //collection2
+      $studentRegisteredCourses = auth()->user()->student->course()->wherePivot('status', '!=', 'failed')->get(); //collection2
       $difference = $availableCourses->diff($studentRegisteredCourses); //diff between 1 and 2
       return CourseResource::collection($difference);
    }
@@ -41,6 +45,7 @@ class StudentController extends Controller
 
    public function registerCourse(StudentRegisterCourseRequest $request)
    {
+
       // check if course exist in db
       $course = Course::where('course_code', $request->course_code)->first();
       $this->checkCourseExistErrorHandler($course, $request->course_code);
@@ -49,9 +54,9 @@ class StudentController extends Controller
       try {
          // register student course 
          $registerdCourse = auth()->user()->student->course();
-         $registerdCourse->attach($request->course_code);
+         $registerdCourse->attach([$request->course_code => ['term' => $request->term]]);
       } catch (\Illuminate\Database\QueryException $e) {
-         return response(['message' => 'user already registered course :  ' . $course->name], 404);
+         return response(['message' => 'you already registered course:  ' . $course->name], 404);
       }
 
       //update exist course_student pivot status into finshed and update score 
@@ -60,7 +65,7 @@ class StudentController extends Controller
             $request->course_code,
             [
                'status' => $request->status,
-               'score' => SimStandardList::$scores[$request->score]
+               'score' => SimStandardList::$scores[$request->score],
             ]
          )
          : '';
@@ -87,6 +92,21 @@ class StudentController extends Controller
 
       return response(['message' => 'user registered ' . $course->name . ' removed successfully'], 200);
    }
+
+   
+   public function calcGPA(Request $request)
+   {
+      $request->validate([
+         'term' => ['required', 'integer', 'in:1,2,3,4,5,6,7,8']
+      ]);
+      $result = GpaCalculator::calcGPA($request->term); //GpaCalculator trait
+      // $result = (new GpaCalculatorController)->calcGPA($request->term)
+      return response([
+         'GPA for term(' . $request->term . ') = ' .   $result['gpa'],
+         'CGPA = ' .   $result['cgpa']
+      ], 200);
+   }
+
 
 
    public function checkCourseExistErrorHandler(Course $course, string $course_code)

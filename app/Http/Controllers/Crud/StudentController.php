@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Crud;
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Spatie\PdfToText\Pdf;
+
 class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    
+
     public function index()
     {
-        
+
         //  return response([
         //     'text'=>$this->extractText()
         //  ]);
@@ -25,8 +27,6 @@ class StudentController extends Controller
      */
     public function store(Request $request)  //change request according to validation form data
     {
-        
-
     }
 
     /**
@@ -51,16 +51,22 @@ class StudentController extends Controller
     {
         //
     }
+    public function updateStudentLevel(Student $student,int $max)
+    {
+        $student->level = $max;  //you must change level into term 
+        $student->save();
+    }
 
     public function extractText()
     {
         $text = (new Pdf(public_path('pdf\xpdf-tools-win-4.04\bin64\pdftotext.exe')))
-        ->setPdf(public_path('pdf\pdf1.pdf'))
-        ->text();
-        
+            ->setPdf(public_path('pdf\pdf1.pdf'))
+            ->text();
+
         return $text;
     }
-    public function runPython(){
+    public function runPython()
+    {
         // Define the Python interpreter and script file path
         $command = 'C:\Users\ziead\AppData\Local\Microsoft\WindowsApps\python.exe example.py'; // storage_path('app\example.py')
 
@@ -72,7 +78,4 @@ class StudentController extends Controller
         ]);
         // dd($output);
     }
-    
 }
-
-

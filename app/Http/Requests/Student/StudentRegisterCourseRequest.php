@@ -24,9 +24,9 @@ class StudentRegisterCourseRequest extends FormRequest
     {
         return [
            'course_code'=>['required','digits:7','integer'],
-           'status'=>['in:finshed'],
-           'score'=>[$this->has('status') ? 'required' : '' ,'string','in:A+,A,A-,B+,B,B-,C+,C,C-,D+,D,D-,F']
-           
+           'term'=>['required','integer','in:1,2,3,4,5,6,7,8'],
+           'status'=>['in:finshed,failed'],
+           'score'=>[$this->has('status') ? 'required' : '' ,'string','in:A+,A,A-,B+,B,B-,C+,C,C-,D+,D,D-,F'] ,
         ];
     }
 }

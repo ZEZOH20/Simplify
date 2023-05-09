@@ -24,10 +24,8 @@ class Course extends Model
 // course has many registerded students 
     public function student(){
         return $this->belongsToMany(Student::class,'course_student','course_code','student_id')->withPivot(
-            'gpa',
             'score',
-            'grade_point',
-            'year',
+            'term',
             'status',
         )->withTimestamps();
     }

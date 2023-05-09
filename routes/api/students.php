@@ -10,6 +10,7 @@ Route::group(['prefix'=>'student','middleware'=>['verified','auth:sanctum']],fun
     Route::get('/available/course',[StudentController::class,'avaliableCourse']);   //, ["except" => ["create", "edit"]]
     Route::post('/register/course',[StudentController::class,'registerCourse']);
     Route::post('/unRegister/course/{course_code}',[StudentController::class,'unRegisterCourse']);
+    Route::post('/calc/gpa',[StudentController::class,'calcGPA']);
 });
 
 
