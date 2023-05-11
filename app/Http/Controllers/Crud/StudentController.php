@@ -53,7 +53,7 @@ class StudentController extends Controller
     }
     public function updateStudentLevel(Student $student,int $max)
     {
-        $student->level = $max;  //you must change level into term 
+        $student->current_term = $max;  //you must change level into term 
         $student->save();
     }
 

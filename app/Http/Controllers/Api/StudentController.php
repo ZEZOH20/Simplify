@@ -50,6 +50,13 @@ class StudentController extends Controller
       $course = Course::where('course_code', $request->course_code)->first();
       $this->checkCourseExistErrorHandler($course, $request->course_code);
 
+      //check if you calculte gpa of previous term so that is mean you finshed previous term registerd course
+      // if not you didn\'t pass prev term
+      if (!$this->checkTermPass($request)) {
+         return response(['message' => 'you didn\'t pass term ' . ($request->term) - 1 . ' to start register on term ' . $request->term], 404);
+      }
+      //............................
+
       // check if the user already registered the course or not
       try {
          // register student course 
@@ -93,12 +100,13 @@ class StudentController extends Controller
       return response(['message' => 'user registered ' . $course->name . ' removed successfully'], 200);
    }
 
-   
+
    public function calcGPA(Request $request)
    {
       $request->validate([
          'term' => ['required', 'integer', 'in:1,2,3,4,5,6,7,8']
       ]);
+
       $result = GpaCalculator::calcGPA($request->term); //GpaCalculator trait
       // $result = (new GpaCalculatorController)->calcGPA($request->term)
       return response([
@@ -116,5 +124,15 @@ class StudentController extends Controller
             'message' => 'course with code ' . $course_code . ' doesn\'t exist in database'
          ], 404);
       }
+   }
+
+
+   public function checkTermPass(Request $request)
+   {
+      $column = 'gpa_t' . ($request->term) - 1;
+      if ($request->term > 1 && auth()->user()->student->term->$column == null) {
+         return false;
+      }
+      return true;
    }
 }

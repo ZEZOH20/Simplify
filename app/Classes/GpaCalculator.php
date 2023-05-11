@@ -4,6 +4,7 @@ namespace App\Classes;
 
 
 use App\Http\Controllers\Crud\StudentController;
+use App\Models\Term;
 
 trait GpaCalculator
 {
@@ -21,18 +22,11 @@ trait GpaCalculator
         self::$student = auth()->user()->student;
 
         //fetch all student registered courses ( finshed - related to term GPA ) 
-        $registerdCourses = self::$student->course()  
+        $registerdCourses = self::$student->course()
             ->wherePivot('status', 'finshed')
             ->wherePivot('term', $term)
             ->get();
 
-        //if student didn't registered or finshed any course related to term then there is notheing to calculate
-        if ($registerdCourses->isEmpty()) {
-            return [
-                'gpa' => 0,
-                'cgpa' => 0,
-            ];
-        }
         //start GpA calculation
         $grade_points = 0;
         $credit = 0;
@@ -41,11 +35,25 @@ trait GpaCalculator
             $credit += $course->credit_hours;
         }
 
-        self::$gpa = $grade_points / $credit;
+        ($credit != 0) ?
+            self::$gpa = $grade_points / $credit : 0;
 
+        // if student terms not exist create terms , else update
         $column = 'gpa_t' . $term;
-        self::$student->$column = self::$gpa;
-        self::$student->save();
+
+       
+        if (!$term = self::$student->term()->first()) {
+            $term = new Term([
+                $column  => self::$gpa,
+            ]);
+        } else {
+            $term->update([
+                $column  => self::$gpa,
+            ]);
+        }
+        self::$student->term()->save($term);
+        // ................................
+
 
         $result = [
             'gpa' =>  self::$gpa,
@@ -66,26 +74,29 @@ trait GpaCalculator
         $countHasValue = 0;
         $i = 0;
         //iterate around each student element and select only avaliable term gpa and count them to find average
-        foreach (self::$student->toArray() as $key => $value) {
+        foreach (self::$student->term->toArray() as $key => $value) {
 
             $column = 'gpa_t' . ($i + 1);
             if ($key == $column) {
-                if($value != null){
-                   (($i + 1) > $max) ? $max = $i+1 : ''; //get max calculeted gpa from db
+                if ($value != null) {
+                    (($i + 1) > $max) ? $max = $i + 1 : ''; //get max calculeted gpa from db
                     $countHasValue++;
                 }
                 $term_GPA_sum += $value;
                 $i++;
             }
         }
-        (new StudentController)->updateStudentLevel(self::$student,$max);  //update student level according to max calculated term gpa 
+        (new StudentController)->updateStudentLevel(self::$student, $max);  //update student level according to max calculated term gpa 
 
         //if there is GPA then there isn\'t CGPA
-        return ($countHasValue != 0) ?
-            $term_GPA_sum / $countHasValue :
-            0;
+        if ($countHasValue != 0) {
+            $cgpa = $term_GPA_sum / $countHasValue;
+        } else {
+            $cgpa = 0;
+        }
+
+        self::$student->cgpa = $cgpa;
+        self::$student->save();
+        return $cgpa;
     }
-
-  
-
 }
