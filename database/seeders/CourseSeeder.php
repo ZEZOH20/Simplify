@@ -17,11 +17,12 @@ class CourseSeeder extends Seeder
         $courses =Course::factory(3)->create();
 
         // recursive relationShip course has many prerequest courses
-        $courses->each(function($course){
-            $course->prereq()->saveMany(
-               Course::factory(2)->create()
-            );
-       });
+            $courses->each(function($course){
+                $course->prereq()->saveMany(
+                   Course::factory(2)->create()
+                );
+           });
+        
         //many to many courses  Students 
         Student::all()->each(function ($student) use ($courses) {
                 $student->course()->saveMany($courses);

@@ -24,13 +24,13 @@ class HomeResource extends JsonResource
             "name" => $this->name,
 
             "student" => [
-                'sex'=>$this->student->sex,
+                'sex'=>$this->student->gender,
                 'img'=>$this->student->img,
             ],
-            "fields" => FieldResource::collection(Field::where('field_id','=',null)->get()),
+            "fields" => FieldResource::collection(Field::where('sub_field_name','=',null)->get()),
             
             "student_fields_progress"=> FieldResource::collection($this->student->field()
-                                            ->where('fields.field_id','=',null)->get()),
+                                            ->where('fields.sub_field_name','=',null)->get()),
           //->where('field_student.student_id','=', $this->student->id)->get()), 
         ];
     }

@@ -5,32 +5,28 @@ namespace App\Http\Controllers\Crud;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Spatie\PdfToText\Pdf;
 
 class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-      
+
+        //  return response([
+        //     'text'=>$this->extractText()
+        //  ]);
     }
 
-    /**
-     * Show the form for creating a new student.
-     */
-    public function create()
-    {
-        // response json Show the form for creating  new student 
-       
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)  //change request according to validation form data
     {
-        
     }
 
     /**
@@ -38,16 +34,6 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        return response(['message'=>'show form page']);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        
-        //
     }
 
     /**
@@ -64,5 +50,32 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function updateStudentLevel(Student $student,int $max)
+    {
+        $student->level = $max;  //you must change level into term 
+        $student->save();
+    }
+
+    public function extractText()
+    {
+        $text = (new Pdf(public_path('pdf\xpdf-tools-win-4.04\bin64\pdftotext.exe')))
+            ->setPdf(public_path('pdf\pdf1.pdf'))
+            ->text();
+
+        return $text;
+    }
+    public function runPython()
+    {
+        // Define the Python interpreter and script file path
+        $command = 'C:\Users\ziead\AppData\Local\Microsoft\WindowsApps\python.exe example.py'; // storage_path('app\example.py')
+
+        // Execute the command and capture the output
+        $output = shell_exec($command);
+
+        return response([
+            "output" => $output
+        ]);
+        // dd($output);
     }
 }

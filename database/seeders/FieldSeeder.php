@@ -36,13 +36,4 @@ class FieldSeeder extends Seeder
     }
 
 }
-  // // create factory with (one to one) and ( many to many ) relationship
-        // Field::factory()->hasAttached(     // Student::factory(3)->create()
-        //     User::factory(3)->create(),
-        //     // [
-                
-        //     //  FieldStudent::factory(4)->create()
-        //     // ]
-        // )->count(4)->create();
-
-    
+ 

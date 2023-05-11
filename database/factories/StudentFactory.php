@@ -16,13 +16,15 @@ class StudentFactory extends Factory
      */
     public function definition(): array
     {   static $i =1;
+        $collage_id = $this->faker->numberBetween(203001,299999);
         $elec_sim =$this->faker->numberBetween(0,132);
         $man_sim =$this->faker->numberBetween(0,132);
         $elec_univ =$this->faker->numberBetween(0,132);
         $man_univ =$this->faker->numberBetween(0,132);
-        $sex =[0=>'male',1=>'female'];
+        $gender =[0=>'male',1=>'female'];
         return [
-            'sex'=>$sex[array_rand($sex)],
+            'collage_id'=>$collage_id,
+            'gender'=>$gender[array_rand($gender)],
             'img'=>'test'.($i++).'.png',
             't_credit'=>$elec_sim + $man_sim + $elec_univ + $man_univ,
             'cgpa'=>$this->faker->randomFloat(null,0,4),

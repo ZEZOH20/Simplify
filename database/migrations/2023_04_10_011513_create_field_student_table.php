@@ -20,7 +20,8 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained()
             ->onDelete('cascade')
             ->onUpdate('cascade');
-            $table->foreignId('field_id')->constrained()
+            $table->string('field_name',155);
+            $table->foreign('field_name')->references('name')->on('fields')
             ->onDelete('cascade')
             ->onUpdate('cascade');
             $table->timestamps();

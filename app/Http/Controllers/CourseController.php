@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\api\CourseCollection;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -13,9 +14,10 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        //dd($request);
-        if(empty($request['parameters']))  //update ??? empty($request)
+        // dd($request);
+        $queryParams = $request->query(); // Retrieve query parameters
+
+        if(empty($queryParams))  //update ??? empty($request)
         {
             $courses=Course::all();
             return new Coursecollection($courses) ;
@@ -38,14 +40,7 @@ class CourseController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+   
     /**
      * Store a newly created resource in storage.
      */
@@ -57,15 +52,7 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function show(string $course_code)
     {
         //
     }
@@ -73,7 +60,7 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $course_code)
     {
         //
     }
@@ -81,8 +68,28 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $course_code)
     {
         //
+    }
+
+    public function changeStatus(string $course_code){
+           
+         try {
+            $course=Course::findOrFail($course_code);
+            // do something with $user
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // handle the error
+            return response(['message'=>'course with code '.$course_code.' doesn\'t exist in database'],404);
+        }
+
+        if($course->status == 'unavailable'){
+            $course->status = 'available';
+            $course->save();
+        }else{
+            $course->status = 'unavailable';
+            $course->save();
+        }
+        return response(['message'=>$course->name.' status '. $course->status .' now'],200);
     }
 }
