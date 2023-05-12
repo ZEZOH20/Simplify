@@ -10,11 +10,14 @@ use \App\Classes\SimStandardList;
 use \App\Classes\GpaCalculator;
 use App\Http\Controllers\Api\GpaCalculatorController;
 use Illuminate\Http\Request;
+use App\Classes\Filtering;
+use App\Http\Resources\CourseStudentPivotResource;
 
 
 class StudentController extends Controller
 {
    use SimStandardList, GpaCalculator;
+
 
    public function avaliableCourse()
    {
@@ -42,6 +45,28 @@ class StudentController extends Controller
       return CourseResource::collection($difference);
    }
 
+   //??????????????????????????????????????????????? */
+   public function activeCourse(Request $request)
+   {
+      //Rather than that :- 
+
+      // $activeCourse = auth()->user()->student->course()->wherePivot('status','active')->get();
+      // return CourseResource::collection($activeCourse);
+
+      // Do that : -
+      $result = (new Filtering($request->query(), 'course_student', [
+         'score',
+         'term',
+         'status',
+         'course_code',
+         'student_id'
+      ]))->start();
+
+
+      // $result = DB::table('course_student')->where('status', 'finshed')->get();
+      return CourseStudentPivotResource::collection($result);
+   }
+   //??????????????????????????????????????????????????? */
 
    public function registerCourse(StudentRegisterCourseRequest $request)
    {
@@ -130,7 +155,9 @@ class StudentController extends Controller
    public function checkTermPass(Request $request)
    {
       $column = 'gpa_t' . ($request->term) - 1;
-      if ($request->term > 1 && auth()->user()->student->term->$column == null) {
+      $status = auth()->user()->student->course()->wherePivot('status','active')->first();
+      
+      if (( $request->term > 1 && auth()->user()->student->term->$column == null ) ) { //|| $statu
          return false;
       }
       return true;
