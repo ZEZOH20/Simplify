@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\OtpRequest;
 use App\Models\Student;
+use App\Models\Term;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -40,7 +41,10 @@ class UserAuthenticationController extends Controller
 
 
         $user->student()->save($student);
-
+        $term =new Term([
+            'student_id'=>$student->id
+        ]);
+        $user->student->term()->save($term);
         return $this->success(
             'successful registeration'
         );

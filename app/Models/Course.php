@@ -19,7 +19,8 @@ class Course extends Model
         'course_type',
         'credit_hours',
         'brief_info' ,
-        'prereq_code'
+        'prereq_code',
+        'material'
     ];
 // course has many registerded students 
     public function student(){
