@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Student\ChangeStatusRequest;
 use App\Http\Resources\api\CourseResource;
 use App\Models\Course;
 use App\Http\Requests\Student\StudentRegisterCourseRequest;
@@ -152,7 +153,7 @@ class StudentController extends Controller
       }
       return true;
    }
-   public function changeStatus(Request $request)
+   public function changeStatus(ChangeStatusRequest $request)
    {
       // checking if the course exists in the database
       try {
