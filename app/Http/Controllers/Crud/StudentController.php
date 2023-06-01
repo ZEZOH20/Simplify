@@ -57,6 +57,8 @@ class StudentController extends Controller
         $student->save();
     }
 
+
+    
     public function extractText()
     {
         $text = (new Pdf(public_path('pdf\xpdf-tools-win-4.04\bin64\pdftotext.exe')))

@@ -25,6 +25,7 @@ class Field extends Model
         'progress',
         'active',
         'panding',
+        'score',
     )->withTimestamps();
    }
    public function course(){
