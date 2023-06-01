@@ -13,6 +13,7 @@ Route::group(['prefix' => 'student', 'middleware' => ['verified', 'auth:sanctum'
     Route::post('/register/course', [StudentController::class, 'registerCourse']);
     Route::post('/unRegister/course/{course_code}', [StudentController::class, 'unRegisterCourse']);
     Route::post('/calc/gpa', [StudentController::class, 'calcGPA']);
+    Route::post('/change/status',[StudentController::class,'changeStatus']);
 });
 
 

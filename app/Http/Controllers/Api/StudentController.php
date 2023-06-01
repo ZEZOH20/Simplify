@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Student\ChangeStatusRequest;
 use App\Http\Resources\api\CourseResource;
 use App\Models\Course;
-use  App\Http\Requests\Student\StudentRegisterCourseRequest;
+use App\Http\Requests\Student\StudentRegisterCourseRequest;
 use \App\Classes\SimStandardList;
 use \App\Classes\GpaCalculator;
 use App\Http\Controllers\Api\GpaCalculatorController;
@@ -55,11 +56,11 @@ class StudentController extends Controller
 
       // Do that : -
       $result = (new Filtering($request->query(), 'course_student', [
-         'score',
-         'term',
-         'status',
-         'course_code',
-         'student_id'
+      'score',
+      'term',
+      'status',
+      'course_code',
+      'student_id'
       ]))->start();
 
 
@@ -72,8 +73,11 @@ class StudentController extends Controller
    {
 
       // check if course exist in db
-      $course = Course::where('course_code', $request->course_code)->first();
-      $this->checkCourseExistErrorHandler($course, $request->course_code);
+      try {
+         $course = $this->checkCourseExistErrorHandler($request->course_code);
+      } catch (\Exception $e) {
+         return response(['message' => $e->getMessage()]);
+      }
 
       //check if you calculte gpa of previous term so that is mean you finshed previous term registerd course
       // if not you didn\'t pass prev term
@@ -109,10 +113,11 @@ class StudentController extends Controller
    public function unRegisterCourse(string $course_code)
    {
       // check if course exist in db
-      $course = Course::where('course_code', $course_code)->first();
-      $this->checkCourseExistErrorHandler($course, $course_code);
-
-
+      try {
+         $course = $this->checkCourseExistErrorHandler($course_code);
+      } catch (\Exception $e) {
+         return response(['message' => $e->getMessage()]);
+      }
       // UnRegister student course 
       $registerdCourse = auth()->user()->student->course(); //relation
 
@@ -135,31 +140,50 @@ class StudentController extends Controller
       $result = GpaCalculator::calcGPA($request->term); //GpaCalculator trait
       // $result = (new GpaCalculatorController)->calcGPA($request->term)
       return response([
-         'GPA for term(' . $request->term . ') = ' .   $result['gpa'],
-         'CGPA = ' .   $result['cgpa']
+         'GPA for term(' . $request->term . ') = ' . $result['gpa'],
+         'CGPA = ' . $result['cgpa']
       ], 200);
    }
-
-
-
-   public function checkCourseExistErrorHandler(Course $course, string $course_code)
-   {
-      if (!$course) {
-         return response([
-            'message' => 'course with code ' . $course_code . ' doesn\'t exist in database'
-         ], 404);
-      }
-   }
-
-
    public function checkTermPass(Request $request)
    {
       $column = 'gpa_t' . ($request->term) - 1;
-      $status = auth()->user()->student->course()->wherePivot('status','active')->first();
-      
-      if (( $request->term > 1 && auth()->user()->student->term->$column == null ) ) { //|| $statu
+      $status = auth()->user()->student->course()->wherePivot('status', 'active')->first();
+      if (($request->term > 1 && auth()->user()->student->term->$column == null)) { //|| $statu
          return false;
       }
       return true;
+   }
+   public function changeStatus(ChangeStatusRequest $request)
+   {
+      // checking if the course exists in the database
+      try {
+         $course = Course::findOrfail($request->course_code);
+      } catch (\Exception $e) {
+         return response([
+            'message' => 'course with code ' . $request->course_code . ' doesn\'t exist in database'
+         ], 404);
+      }
+      $registered_courses = auth()->user()->student->course();
+      // dd($registered_courses);
+      // check if the course is registerd or not
+      if (!$registered_courses->find($request->course_code)) {
+         return response(['message' => 'this course is not registerd to change it\'s status.'], 404);
+      }
+      // change the course status according to the value sent with the request
+      $registered_courses->updateExistingPivot($request->course_code,['status'=>$request->status]);
+      return response([
+         'message'=>'status changed successfully'
+      ],200);
+   }
+
+   public function checkCourseExistErrorHandler(string $course_code)
+   {
+      $course = Course::find($course_code);
+      if (!$course) {
+         throw new \Exception('course with code doesnt exists');
+      }
+      // dd($course);
+      return $course;
+
    }
 }
