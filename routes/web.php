@@ -27,5 +27,11 @@ Route::prefix('/show')
    
 });
 Route::get('/transform',[CourseController::class,'transform']);
+Route::post('/addPdf',[CourseController::class,"addPdf"]);
+Route::get('/addPdfF',function(){
+    return view('addpdf');
+});
+Route::get('/openPdf/{file_name}',[CourseController::class,'openPdf']);
+Route::get('/deletePdf/{course_code}',[CourseController::class,'deletePdf']);
 
 // Route::get('/show/{type}',[CourseController::class,'showSelection']);
