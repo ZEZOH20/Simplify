@@ -12,19 +12,11 @@ class Student extends Model
     protected $fillable = [
         't_credit',
         'cgpa',
-        'gpa_t1',
-        'gpa_t2',
-        'gpa_t3',
-        'gpa_t4',
-        'gpa_t5',
-        'gpa_t6',
-        'gpa_t7',
-        'gpa_t8',
         'elec_sim',
         'man_sim',
         'elec_univ',
         'man_univ',
-        'level', 
+        'current_term', 
         'collage_id',
     ];
 
@@ -48,5 +40,9 @@ class Student extends Model
             'panding',
         )->withTimestamps();
        }
+
+    public function term(){
+        return $this->hasOne(Term::class);
+    }   
 
 }
