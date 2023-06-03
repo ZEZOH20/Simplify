@@ -14,14 +14,20 @@ class FieldResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // {start} make a progress function to measure the field progress
+
+        // $finshed_courses=$this->course->
+        // $progress=($this->course->count());
+
+        // {end}
         return [
             'id'=>$this->id,
             'name'=>$this->name,
             'description'=>$this->description,
+            'pivot'=>$this->whenPivotLoaded('field_student',$this->pivot),
             'sub_fields'=>FieldResource::collection($this->whenLoaded('sub_fields')), 
             "sub_fields_count"=>$this->sub_fields->count(), 
-            'pivot'=>$this->whenPivotLoaded('field_student',$this->pivot),
-          
+            'courses_count'=>$this->course->count(),
         ];
     }
 }

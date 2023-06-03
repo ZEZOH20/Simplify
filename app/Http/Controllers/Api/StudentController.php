@@ -5,11 +5,13 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\ChangeStatusRequest;
 use App\Http\Resources\api\CourseResource;
+use App\Http\Resources\api\FieldResource;
 use App\Models\Course;
 use App\Http\Requests\Student\StudentRegisterCourseRequest;
 use \App\Classes\SimStandardList;
 use \App\Classes\GpaCalculator;
 use App\Http\Controllers\Api\GpaCalculatorController;
+use App\Models\Field;
 use Illuminate\Http\Request;
 use App\Classes\Filtering;
 use App\Http\Resources\CourseStudentPivotResource;
@@ -186,4 +188,5 @@ class StudentController extends Controller
       return $course;
 
    }
+  
 }
