@@ -33,7 +33,7 @@ class Course extends Model
 
     // course has many realated fields
     public function field(){
-        return $this->belongsToMany(Field::class,'course_field','course_code')->withTimestamps();
+        return $this->belongsToMany(Field::class,'course_field','course_code','field_name')->withTimestamps();
        }
 
 // course has many prerequest coursers

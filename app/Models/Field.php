@@ -29,7 +29,7 @@ class Field extends Model
     )->withTimestamps();
    }
    public function course(){
-    return $this->belongsToMany(Course::class)->withTimestamps();
+    return $this->belongsToMany(Course::class,'course_field','field_name','course_code')->withTimestamps();
    }
 
    // field has many sub fields
