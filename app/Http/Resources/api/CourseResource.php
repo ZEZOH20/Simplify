@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\api;
 
+use App\Http\Resources\AcademicStaffResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class CourseResource extends JsonResource
             'credit_hours' =>$this->credit_hours ,
             'brief_info'=>$this->brief_info ,
             "type"=>$this->course_type,
+            'staffs'=> AcademicStaffResource::collection($this->whenLoaded('whosResponsible')),
             'prereq'=> CourseResource::collection($this->whenLoaded('prereq')),
             'status'=>$isAdmin ? $this->status:null,
             

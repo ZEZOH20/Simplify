@@ -15,8 +15,3 @@ Route::group(['prefix' => 'student', 'middleware' => ['verified', 'auth:sanctum'
     Route::post('/calc/gpa', [StudentController::class, 'calcGPA']);
     Route::post('/change/status',[StudentController::class,'changeStatus']);
 });
-
-
- 
-//GET	/sharks/create
-//GET	/sharks/{id}/edit

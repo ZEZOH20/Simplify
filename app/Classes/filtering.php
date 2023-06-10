@@ -10,7 +10,7 @@ class Filtering
 {
 
     private $query;
-    private $tableNames = array('users', 'courses', 'course_student'); //table allowed names for filtering
+    private $tableNames = array('users', 'courses', 'course_student','academic_staffs'); //table allowed names for filtering
     private $fillable = [];
     private $queryParams = [];
     private $conditions = [];

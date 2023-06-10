@@ -30,6 +30,7 @@ class Student extends Model
             'score',
             'term',
             'status',
+            'score'
         )->withTimestamps();
     }
 

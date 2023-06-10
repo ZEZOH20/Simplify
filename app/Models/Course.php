@@ -33,7 +33,7 @@ class Course extends Model
 
     // course has many realated fields
     public function field(){
-        return $this->belongsToMany(Field::class,'course_field','course_code')->withTimestamps();
+        return $this->belongsToMany(Field::class,'course_field','course_code','field_name')->withTimestamps();
        }
 
 // course has many prerequest coursers
@@ -43,6 +43,12 @@ class Course extends Model
 // prerequest course belongs to course 
     public function prereq_related_to(){
         return $this->belongsTo(Course::class,'prereq_code');
-    }      
+    }    
+    
+    // student-admin make professor responsible on specific number of courses 
+   function whosResponsible(){
+    return $this->belongsToMany(AcademicStaff::class ,'staff_responsible_on_courses','course_code','academic_staff_id')
+    ->withTimestamps();
+   } 
     
 }
