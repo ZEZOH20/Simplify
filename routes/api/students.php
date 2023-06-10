@@ -14,11 +14,4 @@ Route::group(['prefix' => 'student', 'middleware' => ['verified', 'auth:sanctum'
     Route::post('/unRegister/course/{course_code}', [StudentController::class, 'unRegisterCourse']);
     Route::post('/calc/gpa', [StudentController::class, 'calcGPA']);
     Route::post('/change/status',[StudentController::class,'changeStatus']);
-    //ahmed
-    Route::get('/show/course/{course_code}',[StudentController::class,'getCourseDetails']);
 });
-
-
- 
-//GET	/sharks/create
-//GET	/sharks/{id}/edit

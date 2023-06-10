@@ -41,8 +41,8 @@ class UserAuthenticationController extends Controller
 
 
         $user->student()->save($student);
-        $term =new Term([
-            'student_id'=>$student->id
+        $term = new Term([
+            'student_id' => $student->id
         ]);
         $user->student->term()->save($term);
         return $this->success(
@@ -57,7 +57,10 @@ class UserAuthenticationController extends Controller
 
         if (Auth::attempt($credentials)) {
             $token = $user->createToken('newToken')->plainTextToken;
-            return response(['message' => 'Successfuly login ', 'token' => $token]);
+            return response([
+                'message' => 'Successfuly login ', 'token' => $token,
+                'isAdmin' => (auth()->user()->type == 'admin') ? true : false
+            ], 200);
             //return redirect()->route('home');
         }
 

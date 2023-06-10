@@ -23,7 +23,8 @@ class ChangeStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status'=>['in:finished,active,failed'],
+            'course_code'=>['required'],
+            'status'=>['required','in:finished,active,failed'],
         ];
     }
 }

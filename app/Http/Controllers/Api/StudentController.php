@@ -5,13 +5,10 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\ChangeStatusRequest;
 use App\Http\Resources\api\CourseResource;
-use App\Http\Resources\api\FieldResource;
 use App\Models\Course;
 use App\Http\Requests\Student\StudentRegisterCourseRequest;
 use \App\Classes\SimStandardList;
 use \App\Classes\GpaCalculator;
-use App\Http\Controllers\Api\GpaCalculatorController;
-use App\Models\Field;
 use Illuminate\Http\Request;
 use App\Classes\Filtering;
 use App\Http\Resources\CourseStudentPivotResource;
@@ -58,11 +55,11 @@ class StudentController extends Controller
 
       // Do that : -
       $result = (new Filtering($request->query(), 'course_student', [
-      'score',
-      'term',
-      'status',
-      'course_code',
-      'student_id'
+         'score',
+         'term',
+         'status',
+         'course_code',
+         'student_id'
       ]))->start();
 
 
@@ -172,10 +169,10 @@ class StudentController extends Controller
          return response(['message' => 'this course is not registerd to change it\'s status.'], 404);
       }
       // change the course status according to the value sent with the request
-      $registered_courses->updateExistingPivot($request->course_code,['status'=>$request->status]);
+      $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status]);
       return response([
-         'message'=>'status changed successfully'
-      ],200);
+         'message' => 'status changed successfully'
+      ], 200);
    }
 
    public function checkCourseExistErrorHandler(string $course_code)
@@ -186,7 +183,5 @@ class StudentController extends Controller
       }
       // dd($course);
       return $course;
-
    }
-  
 }
