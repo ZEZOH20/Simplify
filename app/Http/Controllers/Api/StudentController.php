@@ -13,6 +13,10 @@ use \App\Classes\GpaCalculator;
 use App\Models\Field;
 use Illuminate\Http\Request;
 use App\Classes\Filtering;
+use App\Events\AddFieldEvent;
+use App\Events\ChangeStatusEvent;
+use App\Events\StudentRegisterCourseEvent;
+use App\Events\StudentUnRegisterCourseEvent;
 use App\Http\Resources\CourseStudentPivotResource;
 use Illuminate\Support\Facades\DB;
 
@@ -107,6 +111,9 @@ class StudentController extends Controller
             ]
          )
          : '';
+      // Fire the StudentRegisterCourseEvent event
+      event(new StudentRegisterCourseEvent());   
+
       return response([
          'message' => $course->name . ' for student : ' . auth()->user()->name . ' successfully registered'
       ], 200);
@@ -129,10 +136,13 @@ class StudentController extends Controller
       }
       $registerdCourse->detach($course_code); //remove course
 
+      // Fire the StudentUnRegisterCourseEvent event
+      event(new StudentUnRegisterCourseEvent());  
+
       return response(['message' => 'user registered ' . $course->name . ' removed successfully'], 200);
    }
 
-
+//comment
    public function calcGPA(Request $request)
    {
       $request->validate([
@@ -146,6 +156,7 @@ class StudentController extends Controller
          'CGPA = ' . $result['cgpa']
       ], 200);
    }
+
    public function checkTermPass(Request $request)
    {
       $column = 'gpa_t' . ($request->term) - 1;
@@ -174,11 +185,8 @@ class StudentController extends Controller
       // change the course status according to the value sent with the request
       $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status]);
 
-      // if($request->status=='finished')
-      // {
-         
-      // }
-
+      // Fire the ChangeStatusEvent event
+      event(new ChangeStatusEvent());  
       return response([
          'message' => 'status changed successfully'
       ], 200);
@@ -213,6 +221,9 @@ class StudentController extends Controller
       else{
          return response(['message'=>'Field is already added'],404);
       }
+
+      //Fire the AddFieldEvent event
+      event(new AddFieldEvent());
       return response(['message'=>'Field was added successfully'],200);
    }
 
@@ -246,7 +257,8 @@ class StudentController extends Controller
    }
 
    
-   public function checkProgress()
+   //comment
+   public function automatedCheckProgress()
    {
       // student fields 
       $fields=auth()->user()->student->field;

@@ -16,15 +16,41 @@ trait GpaCalculator
     private static $student;
     //GPA will be start if there is at least 1 student registered course 
 
-    public static function calcGPA(string $term)
+
+    public static function automatedCalcGPA()
+    {
+        self::$student = auth()->user()->student;
+        //fetch all student registered courses ( finshed - related to term GPA ) 
+        foreach (range(1, 8) as $termNumber) {
+            self::CalcGPAMainLogic($termNumber);
+            //return gpa calculations to default value to start new terms calculations
+            self::$gpa = 0;
+        }
+        // calc CGPA
+        self::calcCGPA();
+    }
+
+    public static function calcGPA(string $termNumber)
     {
 
         self::$student = auth()->user()->student;
 
-        //fetch all student registered courses ( finshed - related to term GPA ) 
+        self::CalcGPAMainLogic($termNumber);
+
+        $result = [
+            'gpa' =>  self::$gpa,
+            'cgpa' => self::calcCGPA(),
+        ];
+        //calcCGPA  after calcGPA called
+
+        return $result;
+    }
+
+    public static function CalcGPAMainLogic(int $termNumber)
+    {
         $registerdCourses = self::$student->course()
-            ->wherePivot('status', 'finshed')
-            ->wherePivot('term', $term)
+            ->wherePivot('status', 'finished')
+            ->wherePivot('term', $termNumber)
             ->get();
 
         //start GpA calculation
@@ -39,9 +65,9 @@ trait GpaCalculator
             self::$gpa = $grade_points / $credit : 0;
 
         // if student terms not exist create terms , else update
-        $column = 'gpa_t' . $term;
+        $column = 'gpa_t' . $termNumber;
 
-       
+
         if (!$term = self::$student->term()->first()) {
             $term = new Term([
                 $column  => self::$gpa,
@@ -53,15 +79,6 @@ trait GpaCalculator
         }
         self::$student->term()->save($term);
         // ................................
-
-
-        $result = [
-            'gpa' =>  self::$gpa,
-            'cgpa' => self::calcCGPA(),
-        ];
-        //calcCGPA  after calcGPA called
-
-        return $result;
     }
     /* CGPA will be start if there is at least 1 student registered course term value different 
     and GPA foreach term was caculated */
