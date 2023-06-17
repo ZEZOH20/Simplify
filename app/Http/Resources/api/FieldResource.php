@@ -21,7 +21,6 @@ class FieldResource extends JsonResource
 
         // {end}
         return [
-            'id'=>$this->id,
             'name'=>$this->name,
             'description'=>$this->description,
             'pivot'=>$this->whenPivotLoaded('field_student',$this->pivot),
