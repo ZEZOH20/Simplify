@@ -8,6 +8,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Classes\Filtering;
 use Illuminate\Support\Facades\File;
+use Response;
 
 
 class CourseController extends Controller
