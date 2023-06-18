@@ -27,7 +27,7 @@ class AcademicStaffStoreRequest extends FormRequest
             'name' => ['required', 'string', 'max:20'],
             'verbose_title' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'phone_number' => ['number'],
+            'phone_number' => ['numeric'],
             'img' => ['image', 'size:1024', 'mimes:jpeg,png'],
             'department' => ['required', 'string'],
             'degree' => ['required', 'string'],
@@ -36,7 +36,7 @@ class AcademicStaffStoreRequest extends FormRequest
         $updateRules = [
             'name' => ['string', 'max:20'],
             'verbose_title' => ['string'],
-            'phone_number' => ['number'],
+            'phone_number' => ['numeric'],
             'email' => ['email'],
             'img' => ['image', 'size:1024', 'mimes:jpeg,png'],
             'department' => ['string'],

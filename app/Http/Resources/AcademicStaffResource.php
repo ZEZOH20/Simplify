@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\api\CourseResource;
+use App\Models\AcademicStaff;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,7 +25,7 @@ class AcademicStaffResource extends JsonResource
             'department'=>$this->department,
             'degree'=>$this->degree,
             'title'=>$this->title,
-            'courses'=>CourseResource::collection($this->whenLoaded('makeResponsible'))
+            'courses'=>($this instanceof AcademicStaff)?CourseResource::collection($this->whenLoaded('makeResponsible')):''
         ];
     }
 }

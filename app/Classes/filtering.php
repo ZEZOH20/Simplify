@@ -36,7 +36,7 @@ class Filtering
 
             $this->query->where(...$condition);
         }
-        // dd($this->query);
+        // dd($this->query->get());
         $result = $this->query->get();
         return $result;
     }
