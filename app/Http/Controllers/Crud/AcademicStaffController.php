@@ -9,6 +9,7 @@ use App\Http\Resources\AcademicStaffResource;
 use App\Models\AcademicStaff;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Exists;
 
 class AcademicStaffController extends Controller
 {
@@ -26,6 +27,7 @@ class AcademicStaffController extends Controller
             'degree',
             'title',
         ]))->start();
+
         return AcademicStaffResource::collection($staff);
     }
 
@@ -68,16 +70,23 @@ class AcademicStaffController extends Controller
         $validated = $request->validated();
 
         //check exists
-        $exists = AcademicStaff::where('email', $request->email)->exists();
-        if ($exists)
-            return response(['errorMessage' => 'can\'t update staff member email ' . $email . ' another member already exist'], 400);
+        $exists = false;
 
+        if (!empty($validated['email']))
+            $exists = AcademicStaff::where('email', $request->email)->exists();
+
+        if ($exists && !empty($validated['email'])) {
+            return response(['errorMessage' => 'can\'t update staff member email ' . $email . ' another member already exist'], 400);
+        }
         // update member
         $updateMember = AcademicStaff::where('email', $email)->update($validated);
 
+        if (!empty($validated['email']))
+            $email = $request->email;
+
         return ($updateMember) ? response([
             'message' => 'successfully update staff member email :  ' . $email,
-            'data' => new AcademicStaffResource(AcademicStaff::where('email', $request->email)->first())
+            'data' => new AcademicStaffResource(AcademicStaff::where('email', $email)->first())
         ], 200) :
             response(['errorMessage' => 'staff member email ' . $email . ' doesn\'t exist'], 400);
     }
@@ -114,7 +123,7 @@ class AcademicStaffController extends Controller
 
         $start = strpos($routeName, ".") + 1; //routeName position from (.) + 1
         $end = 6; //end = 6 , because (detach && attach) characters number = 6
-        $process = substr($routeName, $start, $end). 'ed';
+        $process = substr($routeName, $start, $end) . 'ed';
 
         //check exists before attach and detach
         $exists = $member->makeResponsible()
@@ -135,7 +144,7 @@ class AcademicStaffController extends Controller
         }
         return response([
             'message' => 'successfully ' . $process . ' course code ' . $course->course_code,
-            'data' => $member->makeResponsible 
+            'data' => $member->makeResponsible
         ], 200);
     }
 
@@ -148,6 +157,5 @@ class AcademicStaffController extends Controller
             response(['errorMessage' => 'staff member email ' . $email . ' doesn\'t exist'], 400);
 
         return new AcademicStaffResource($member);
-    
     }
 }
