@@ -18,17 +18,9 @@ class AcademicStaffController extends Controller
      */
     public function index(Request $request)
     {
-        $staff = (new Filtering($request->query(), 'academic_staffs', [
-            'name',
-            'verbose_title',
-            'email',
-            'phone_number',
-            'department',
-            'degree',
-            'title',
-        ]))->start();
-
-        return AcademicStaffResource::collection($staff);
+        $staffs = AcademicStaff::get();
+        
+        return AcademicStaffResource::collection($staffs);
     }
 
 

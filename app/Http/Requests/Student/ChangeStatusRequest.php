@@ -25,6 +25,7 @@ class ChangeStatusRequest extends FormRequest
         return [
             'course_code'=>['required'],
             'status'=>['required','in:finished,active,failed'],
+            'score'=>$this->status=='finished' ?['required','string','in:A+,A,A-,B+,B,B-,C+,C,C-,D+,D,D-,F']:'',
         ];
     }
 }

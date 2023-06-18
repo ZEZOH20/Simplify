@@ -183,7 +183,10 @@ class StudentController extends Controller
          return response(['message' => 'this course is not registerd to change it\'s status.'], 404);
       }
       // change the course status according to the value sent with the request
-      $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status]);
+      ($request->score=='')?
+      $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status]) :
+      $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status,'score'=>SimStandardList::$scores[$request->score]])
+      ;
 
       // Fire the ChangeStatusEvent event
       event(new ChangeStatusEvent());  

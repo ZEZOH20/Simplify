@@ -28,7 +28,7 @@ class AcademicStaffStoreRequest extends FormRequest
             'verbose_title' => ['required', 'string'],
             'email' => ['required', 'email'],
             'phone_number' => ['numeric'],
-            'img' => ['image', 'size:1024', 'mimes:jpeg,png'],
+            'img' => ['image', 'size:1024'], //'mimes:jpeg,png'
             'department' => ['required', 'string'],
             'degree' => ['required', 'string'],
             'title' => ['required', 'in:professor,instructor'],
@@ -38,7 +38,7 @@ class AcademicStaffStoreRequest extends FormRequest
             'verbose_title' => ['string'],
             'phone_number' => ['numeric'],
             'email' => ['email'],
-            'img' => ['image', 'size:1024', 'mimes:jpeg,png'],
+            'img' => ['image', 'size:1024'],
             'department' => ['string'],
             'degree' => ['string'],
             'title' => ['in:professor,instructor'],

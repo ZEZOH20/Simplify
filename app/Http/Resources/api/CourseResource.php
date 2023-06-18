@@ -23,6 +23,7 @@ class CourseResource extends JsonResource
             'credit_hours' =>$this->credit_hours ,
             'brief_info'=>$this->brief_info ,
             "type"=>$this->course_type,
+            "img"=>$this->img,
             'staffs'=> AcademicStaffResource::collection($this->whenLoaded('whosResponsible')),
             'prereq'=> CourseResource::collection($this->whenLoaded('prereq')),
             'status'=>$isAdmin ? $this->status:null,

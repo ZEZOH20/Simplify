@@ -25,6 +25,7 @@ return new class extends Migration
         $table->integer('credit_hours');
         $table->string('course_type');
         $table->string('brief_info');
+        $table->string('img')->nullable();
         $table->timestamps();
     });
 }
