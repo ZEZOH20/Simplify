@@ -20,7 +20,8 @@ class FieldImport implements ToModel,WithHeadingRow
             //
             'name'=>$row['name'],
             'description'=>$row['description'],
-            'sub_field_name'=>$row['sub_field_name']
+            'sub_field_name'=>$row['sub_field_name'],
+            'img'=>$row['img']
         ]);
     
     }

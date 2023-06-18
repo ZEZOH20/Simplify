@@ -25,7 +25,7 @@ class AcademicStaffResource extends JsonResource
             'department'=>$this->department,
             'degree'=>$this->degree,
             'title'=>$this->title,
-            'courses'=>($this instanceof AcademicStaff)?CourseResource::collection($this->whenLoaded('makeResponsible')):''
+            'courses'=>CourseResource::collection($this->whenLoaded('makeResponsible')),
         ];
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name',155);
             $table->primary('name');
             $table->string('description');
+            $table->string('img')->nullable();
             $table->string('sub_field_name',155)->nullable();
             $table->foreign('sub_field_name')->references('name')->on('fields')
             ->onDelete('cascade')

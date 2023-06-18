@@ -17,7 +17,8 @@ class Field extends Model
    protected $fillable =[
     'name',
     'description',
-    'sub_field_name'
+    'sub_field_name',
+    'img'
    ];
    
    public function student(){

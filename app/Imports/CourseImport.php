@@ -23,6 +23,7 @@ class CourseImport implements ToModel,WithHeadingRow
             'course_type'=>$row['course_type'],
             'brief_info'=>$row['brief_info'],
             'prereq_code'=>$row['prereq_code'],
+            'img'=>$row['img'],
         ]);
        
        

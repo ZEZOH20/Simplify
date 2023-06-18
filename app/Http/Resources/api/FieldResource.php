@@ -23,6 +23,7 @@ class FieldResource extends JsonResource
         return [
             'name'=>$this->name,
             'description'=>$this->description,
+            'img'=>$this->img,
             'pivot'=>$this->whenPivotLoaded('field_student',$this->pivot),
             'sub_fields'=>FieldResource::collection($this->whenLoaded('sub_fields')), 
             "sub_fields_count"=>$this->sub_fields->count(), 
