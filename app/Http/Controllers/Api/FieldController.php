@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadRequest;
 use App\Http\Resources\api\CourseResource;
 use App\Http\Resources\api\FieldResource;
 use App\Http\Resources\CourseStudentPivotResource;
 use App\Models\Field;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
 
 class FieldController extends Controller
 {
@@ -42,7 +45,6 @@ class FieldController extends Controller
       // return CourseStudentPivotResource::collection($courses);
       return CourseResource::collection($courses);
    }
-///ziaddddddddddddddddddddddddddddddd
    public function getCourseDetails(string $course_code)
    {
       try {
@@ -53,4 +55,46 @@ class FieldController extends Controller
       return new CourseStudentPivotResource($course);
    }
 
+   public function addImg(UploadRequest $request)
+   {
+      try{
+         $field=Field::findOrFail($request->field_name);
+      }
+      catch(\Exception $e)
+      {
+         return response(['message'=>'Couldn\'t find a field with such name'],404);
+      }
+
+      if ($request->hasFile('img')) {
+         try{
+            $field=Field::findOrFail($request->field_name);
+         }
+         catch(\Exception $e)
+         {
+            return response(['message'=>'Couldn\'t find a field with such name'],404);
+         }
+         // dd($request->file('img'));
+         $img_file = $request->file('img');
+         $img_file_name = $img_file->getClientOriginalName();
+         $img_file->move(public_path('images'), $img_file_name);
+         $field->update(["img" => $img_file_name]);
+         return response(['message' => 'file uploaded successfully'], 200);
+     }
+
+   }
+
+   public function removeImg(string $field_name)
+    {
+      try{
+         $field=Field::findOrFail($field_name);
+      }
+      catch(\Exception $e)
+      {
+         return response(['message'=>'Couldn\'t find a field with such name'],404);
+      }
+        File::delete(public_path('images/') . $field->img);
+        // dd($course->material);
+        $field->update(['img' => NULL]);
+        return response(['message' => 'file deleted successfully'], 200);
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/students', 'middleware' => ['verified', 'auth:sanctum', 'isAdmin']], function () {
     Route::apiResource('/', AdminStudentController::class);   //, ["except" => ["create", "edit"]]
+    Route::post('/addExcelFile',[StudentController::class,'addExcelFile'])->name('admin.addExcelFile');
 });
 Route::group(['prefix' => 'student', 'middleware' => ['verified', 'auth:sanctum']], function () {
     Route::get('/available/course', [StudentController::class, 'avaliableCourse']);   //, ["except" => ["create", "edit"]]
@@ -22,5 +23,8 @@ Route::group(['prefix' => 'student', 'middleware' => ['verified', 'auth:sanctum'
     // testing draft
     Route::get('/show/progress/{course_code}',[StudentController::class,'updateProgress']);
     Route::get('/show/progress/',[StudentController::class,'checkProgress']);
+
+    //
+    
 
 });

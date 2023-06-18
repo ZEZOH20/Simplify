@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\ChangeStatusRequest;
+use App\Http\Requests\UploadRequest;
 use App\Http\Resources\api\CourseResource;
 use App\Http\Resources\StudentFieldResource;
 use App\Models\Course;
@@ -289,6 +290,16 @@ class StudentController extends Controller
       }
       
    }
+   public function addExcelFile(UploadRequest $request)
+   {
+      if ($request->hasFile('excel_file')) {
+         $excel_file = $request->file('excel_file');
+         $excel_file_name = $excel_file->getClientOriginalName();
+         $excel_file->move(public_path('Excel'), $excel_file_name);
+         return response(['message' => 'file uploaded successfully'], 200);
+     }
+   }
+
 }
 
 // public function updateProgress(string $course_code)
