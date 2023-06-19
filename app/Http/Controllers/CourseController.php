@@ -76,15 +76,10 @@ class CourseController extends Controller
         }
         return response(['message' => $course->name . ' status ' . $course->status . ' now'], 200);
     }
+
+    //??????????????????????????????????
     public function addPdf(UploadRequest $request)
     {
-        // dd($request->pdf->file_original_name);
-        // dd($request);
-        // $course=Course::findorfail($request->courseCode);
-        // $file=$request->pdf;
-        // dd($file->getClientOriginalName());
-        // $course->update(["material"=>$file]);
-
         if ($request->hasFile('pdf')) {
             try {
                 $course = Course::findOrFail($request->course_code);
@@ -95,25 +90,21 @@ class CourseController extends Controller
             }
             $pdfFile = $request->file('pdf');
             $pdfFileName = $pdfFile->getClientOriginalName();
-            $pdfFile->move(public_path('uploadedpdfs'), $pdfFileName);
+            $pdfFile->move(public_path('pdf'), $pdfFileName);
+            //check old file exists in path (delete if exists)
+            if (File::exists(public_path('pdf\\' . $course->material))) {
+                $this->deletePdf(public_path('pdf\\' . $course->material));
+            }
+            
             $course->update(["material" => $pdfFileName]);
             return response(['message' => 'file uploaded successfully'], 200);
         }
     }
-    public function deletePdf(string $course_code)
+    public function deletePdf(string $path)
     {
-        try {
-            $course = Course::findOrFail($course_code);
-            // do something with $user
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // handle the error
-            return response(['message' => 'course with code ' . $course_code . ' doesn\'t exist in database'], 404);
-        }
-        File::delete(public_path('uploadedpdfs/') . $course->material);
-        // dd($course->material);
-        $course->update(['material' => NULL]);
-        return response(['message' => 'file deleted successfully'], 200);
+        File::delete($path);
     }
+    //??????????????????????????????????
 
     public function openPdf(string $file_name)
     {

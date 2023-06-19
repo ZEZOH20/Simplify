@@ -18,6 +18,7 @@ Route::group(['prefix' => 'student', 'middleware' => ['verified', 'auth:sanctum'
     Route::get('/add/field/{field_name}',[StudentController::class,'addField']);
     Route::get('/remove/field/{field_name}',[StudentController::class,'removeField']);
     Route::get('/show/fields',[StudentController::class,'showFields']);
+    Route::get('/showInfo',[StudentController::class,'showInfo']);
     // Route::get('/show/progress/{course_code}',[StudentController::class,'updateProgress']);
 
     // testing draft
