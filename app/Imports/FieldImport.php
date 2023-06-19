@@ -17,7 +17,6 @@ class FieldImport implements ToModel,WithHeadingRow
     { 
        
          Field::create([
-            //
             'name'=>$row['name'],
             'description'=>$row['description'],
             'sub_field_name'=>$row['sub_field_name'],
