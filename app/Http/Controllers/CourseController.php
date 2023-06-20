@@ -77,7 +77,7 @@ class CourseController extends Controller
         return response(['message' => $course->name . ' status ' . $course->status . ' now'], 200);
     }
 
-    //??????????????????????????????????
+
     public function addPdf(UploadRequest $request)
     {
         if ($request->hasFile('pdf')) {
@@ -92,19 +92,16 @@ class CourseController extends Controller
             $pdfFileName = $pdfFile->getClientOriginalName();
             $pdfFile->move(public_path('pdf'), $pdfFileName);
             //check old file exists in path (delete if exists)
-            if (File::exists(public_path('pdf\\' . $course->material))) {
-                $this->deletePdf(public_path('pdf\\' . $course->material));
+            if (File::exists(public_path('pdf/' . $course->material))) {
+                $this->deleteFile(public_path('pdf/' . $course->material));
             }
-            
+
             $course->update(["material" => $pdfFileName]);
             return response(['message' => 'file uploaded successfully'], 200);
         }
     }
-    public function deletePdf(string $path)
-    {
-        File::delete($path);
-    }
-    //??????????????????????????????????
+
+
 
     public function openPdf(string $file_name)
     {
@@ -114,13 +111,6 @@ class CourseController extends Controller
     }
     public function addImg(UploadRequest $request)
     {
-        // dd($request->pdf->file_original_name);
-        // dd($request);
-        // $course=Course::findorfail($request->courseCode);
-        // $file=$request->pdf;
-        // dd($file->getClientOriginalName());
-        // $course->update(["material"=>$file]);
-
         if ($request->hasFile('img')) {
             try {
                 $course = Course::findOrFail($request->course_code);
@@ -132,23 +122,22 @@ class CourseController extends Controller
             // dd($request->file('img'));
             $img_file = $request->file('img');
             $img_file_name = $img_file->getClientOriginalName();
-            $img_file->move(public_path('images'), $img_file_name);
+            $img_file->move(public_path('courses-images/'.$course->course_code.'/'),$img_file_name);
+            dd(public_path('courses-images/'.$course->course_code.'/').$img_file_name);
+            //check old file exists in path (delete if exists)
+            if (File::exists(public_path('courses-images/'.$course->course_code.'/'. $course->img))) {
+                $this->deleteFile(public_path('courses-images/'.$course->course_code.'/'. $course->img));
+            }
+
             $course->update(["img" => $img_file_name]);
             return response(['message' => 'file uploaded successfully'], 200);
         }
     }
-    public function removeImg(string $course_code)
+
+    //??????????????????????????????????
+    public function deleteFile(string $path)
     {
-        try {
-            $course = Course::findOrFail($course_code);
-            // do something with $user
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // handle the error
-            return response(['message' => 'course with code ' . $course_code . ' doesn\'t exist in database'], 404);
-        }
-        File::delete(public_path('images/') . $course->img);
-        // dd($course->material);
-        $course->update(['img' => NULL]);
-        return response(['message' => 'file deleted successfully'], 200);
+        File::delete($path);
     }
+    //??????????????????????????????????
 }
