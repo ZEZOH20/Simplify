@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\api;
 
+use App\Http\Resources\StudentFieldResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,9 +26,7 @@ class FieldResource extends JsonResource
             'description'=>$this->description,
             'img'=>$this->img,
             'pivot'=>$this->whenPivotLoaded('field_student',$this->pivot),
-            'sub_fields'=>FieldResource::collection($this->whenLoaded('sub_fields')), 
-            "sub_fields_count"=>$this->sub_fields->count(), 
-            'courses_count'=>$this->course->count(),
+            'courses_related_count'=>$this->course->count(),
         ];
     }
 }

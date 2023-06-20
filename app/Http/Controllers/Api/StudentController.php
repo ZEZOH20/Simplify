@@ -18,7 +18,9 @@ use App\Events\AddFieldEvent;
 use App\Events\ChangeStatusEvent;
 use App\Events\StudentRegisterCourseEvent;
 use App\Events\StudentUnRegisterCourseEvent;
+use App\Http\Resources\api\UserResource;
 use App\Http\Resources\CourseStudentPivotResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -113,7 +115,7 @@ class StudentController extends Controller
          )
          : '';
       // Fire the StudentRegisterCourseEvent event
-      event(new StudentRegisterCourseEvent());   
+      event(new StudentRegisterCourseEvent());
 
       return response([
          'message' => $course->name . ' for student : ' . auth()->user()->name . ' successfully registered'
@@ -138,12 +140,12 @@ class StudentController extends Controller
       $registerdCourse->detach($course_code); //remove course
 
       // Fire the StudentUnRegisterCourseEvent event
-      event(new StudentUnRegisterCourseEvent());  
+      event(new StudentUnRegisterCourseEvent());
 
       return response(['message' => 'user registered ' . $course->name . ' removed successfully'], 200);
    }
 
-//comment
+   //comment
    public function calcGPA(Request $request)
    {
       $request->validate([
@@ -184,13 +186,12 @@ class StudentController extends Controller
          return response(['message' => 'this course is not registerd to change it\'s status.'], 404);
       }
       // change the course status according to the value sent with the request
-      ($request->score=='')?
-      $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status]) :
-      $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status,'score'=>SimStandardList::$scores[$request->score]])
-      ;
+      ($request->score == '') ?
+         $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status]) :
+         $registered_courses->updateExistingPivot($request->course_code, ['status' => $request->status, 'score' => SimStandardList::$scores[$request->score]]);
 
       // Fire the ChangeStatusEvent event
-      event(new ChangeStatusEvent());  
+      event(new ChangeStatusEvent());
       return response([
          'message' => 'status changed successfully'
       ], 200);
@@ -209,86 +210,75 @@ class StudentController extends Controller
    public function addField(string $field_name)
    {
       // check for the field existance
-      try{
-         $field=Field::findOrFail($field_name);
+      try {
+         $field = Field::findOrFail($field_name);
+      } catch (\Exception $e) {
+         return response(['message' => 'Couldn\'t find a field with such name'], 404);
       }
-      catch(\Exception $e)
-      {
-         return response(['message'=>'Couldn\'t find a field with such name'],404);
-      }
-      $student= auth()->user()->student;
+      $student = auth()->user()->student;
       // check if the field already exists in the pivot table
-      if(!$student->field()->find($field_name))
-      {
-      $student->field()->attach($field);
-      }
-      else{
-         return response(['message'=>'Field is already added'],404);
+      if (!$student->field()->find($field_name)) {
+         $student->field()->attach($field);
+      } else {
+         return response(['message' => 'Field is already added'], 404);
       }
 
       //Fire the AddFieldEvent event
       event(new AddFieldEvent());
-      return response(['message'=>'Field was added successfully'],200);
+      return response(['message' => 'Field was added successfully'], 200);
    }
 
    public function removeField(string $field_name)
    {
-      try{
-         $field=Field::findOrFail($field_name);
+      try {
+         $field = Field::findOrFail($field_name);
+      } catch (\Exception $e) {
+         return response(['message' => 'Couldn\'t find a field with such name'], 404);
       }
-      catch(\Exception $e)
-      {
-         return response(['message'=>'Couldn\'t find a field with such name'],404);
-      }
-      $student=auth()->user()->student;
-      try{
+      $student = auth()->user()->student;
+      try {
          $student->field()->findOrFail($field_name);
-      }
-      catch(\Exception $e)
-      {
-         return response(['message'=>'This field doesn\'t exist in your profile'],404);
+      } catch (\Exception $e) {
+         return response(['message' => 'This field doesn\'t exist in your profile'], 404);
       }
       $student->field()->detach($field);
-      return response(['message'=>'Field was removed successfully'],200);
+      return response(['message' => 'Field was removed successfully'], 200);
    }
 
    public function showFields()
    {
-      $student=auth()->user()->student;
+      $student = auth()->user()->student;
       // dd($student->field->pivot);
       return StudentFieldResource::collection($student->field);
       // return $student->field;
    }
 
-   
+
    //comment
    public function automatedCheckProgress()
    {
       // student fields 
-      $fields=auth()->user()->student->field;
+      $fields = auth()->user()->student->field;
       // getting student id
-      $student_Id=auth()->user()->student->id;
-      foreach($fields as $field)
-      {
+      $student_Id = auth()->user()->student->id;
+      foreach ($fields as $field) {
          // joining table between course_field and course student table to get status of every course
-         $join_table=DB::table('course_field')
-         ->join('course_student','course_field.course_code','=','course_student.course_code')->select('course_student.*','course_field.*');
+         $join_table = DB::table('course_field')
+            ->join('course_student', 'course_field.course_code', '=', 'course_student.course_code')->select('course_student.*', 'course_field.*');
          // get field courses
-         $courses=$field->course;
+         $courses = $field->course;
          //check if the field has courses or not
-         if($courses->count()==0)
-         {
+         if ($courses->count() == 0) {
             continue;
          }
          // field courses registered by this student
-         $join_courses=$join_table->where(['student_id'=>$student_Id,'field_name'=>$field->name]);
+         $join_courses = $join_table->where(['student_id' => $student_Id, 'field_name' => $field->name]);
          // get number of finished courses in this field by this student
-         $finished_courses=$join_courses->where(['status'=>'finished']);
-         $finished_courses_count=$finished_courses->count();
-         $progress=(($finished_courses_count)/($courses->count()))*100;
-         $field->pivot->update(['progress'=>$progress]);
+         $finished_courses = $join_courses->where(['status' => 'finished']);
+         $finished_courses_count = $finished_courses->count();
+         $progress = (($finished_courses_count) / ($courses->count())) * 100;
+         $field->pivot->update(['progress' => $progress]);
       }
-      
    }
    public function addExcelFile(UploadRequest $request)
    {
@@ -297,9 +287,12 @@ class StudentController extends Controller
          $excel_file_name = $excel_file->getClientOriginalName();
          $excel_file->move(public_path('Excel'), $excel_file_name);
          return response(['message' => 'file uploaded successfully'], 200);
-     }
+      }
    }
-
+   public  function showInfo(){
+      $user = auth()->user()->load(['student.term','student.field']);
+      return new UserResource($user);
+   }
 }
 
 // public function updateProgress(string $course_code)
