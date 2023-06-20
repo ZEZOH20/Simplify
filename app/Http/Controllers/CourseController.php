@@ -9,7 +9,6 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Classes\Filtering;
 use Illuminate\Support\Facades\File;
-use Response;
 
 
 class CourseController extends Controller
@@ -91,10 +90,10 @@ class CourseController extends Controller
             }
             $pdfFile = $request->file('pdf');
             $pdfFileName = $pdfFile->getClientOriginalName();
-            $pdfFile->move(public_path('pdf'), $pdfFileName);
+            $pdfFile->move(public_path('pdf/'.$course->course_code.'/'), $pdfFileName);
             //check old file exists in path (delete if exists)
-            if (File::exists(public_path('pdf/' . $course->material))) {
-                $this->deleteFile(public_path('pdf/' . $course->material));
+            if (File::exists(public_path('pdf/'.$course->course_code.'/' . $course->material))) {
+                $this->deleteFile(public_path('pdf/'.$course->course_code.'/' . $course->material));
             }
 
             $course->update(["material" => $pdfFileName]);
@@ -123,11 +122,10 @@ class CourseController extends Controller
             // dd($request->file('img'));
             $img_file = $request->file('img');
             $img_file_name = $img_file->getClientOriginalName();
-            $img_file->move(public_path('courses-images/'.$course->course_code.'/'),$img_file_name);
-            dd(public_path('courses-images/'.$course->course_code.'/').$img_file_name);
+            $img_file->move(public_path('images/courses-images/'.$course->course_code.'/'),$img_file_name);
             //check old file exists in path (delete if exists)
-            if (File::exists(public_path('courses-images/'.$course->course_code.'/'. $course->img))) {
-                $this->deleteFile(public_path('courses-images/'.$course->course_code.'/'. $course->img));
+            if (File::exists(public_path('images/courses-images/'.$course->course_code.'/'. $course->img))) {
+                $this->deleteFile(public_path('images/courses-images/'.$course->course_code.'/'. $course->img));
             }
 
             $course->update(["img" => $img_file_name]);

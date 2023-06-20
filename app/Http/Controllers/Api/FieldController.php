@@ -76,11 +76,11 @@ class FieldController extends Controller
          // dd($request->file('img'));
          $img_file = $request->file('img');
          $img_file_name = $img_file->getClientOriginalName();
-         $img_file->move(public_path('fields-images'), $img_file_name);
-          //check old file exists in path (delete if exists)
-          if (File::exists(public_path('fields-images/' . $field->img))) {
-            $this->deleteFile(public_path('fields-images/' . $field->img));
-        }
+         $img_file->move(public_path('images/field-images/'.$field->name.'/'),$img_file_name);
+            //check old file exists in path (delete if exists)
+            if (File::exists(public_path('images/field-images/'.$field->name.'/'. $field->img))) {
+                $this->deleteFile(public_path('images/field-images/'.$field->name.'/'. $field->img));
+            }
          $field->update(["img" => $img_file_name]);
          return response(['message' => 'file uploaded successfully'], 200);
      }
