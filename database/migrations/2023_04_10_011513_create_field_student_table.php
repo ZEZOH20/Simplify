@@ -16,8 +16,7 @@ return new class extends Migration
             $table->id();
             $table->double('progress')->default(0);
             $table->unsignedInteger('active')->default(0);
-            $table->unsignedInteger('panding')->nullable();
-            $table->enum('score',[1,2,3,4,5])->nullable(); // favorite percentage
+            $table->double('score'); // favorite percentage
             $table->foreignId('student_id')->constrained()
             ->onDelete('cascade')
             ->onUpdate('cascade');

@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Events\AddFieldEvent;
 use App\Events\ChangeStatusEvent;
+use App\Events\RemoveFieldEvent;
 use App\Events\StudentRegisterCourseEvent;
 use App\Events\StudentUnRegisterCourseEvent;
 use App\Listeners\CalcGpaAndProgressListener;
+use App\Listeners\RecommendationListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -34,7 +36,11 @@ class EventServiceProvider extends ServiceProvider
         ],
         AddFieldEvent::class => [
             CalcGpaAndProgressListener::class,
+            RecommendationListener::class,
         ],
+        RemoveFieldEvent::class =>[
+            RecommendationListener::class,
+        ]
     ];
 
     /**

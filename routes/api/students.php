@@ -15,9 +15,10 @@ Route::group(['prefix' => 'student', 'middleware' => ['verified', 'auth:sanctum'
     Route::post('/unRegister/course/{course_code}', [StudentController::class, 'unRegisterCourse']);
     Route::post('/calc/gpa', [StudentController::class, 'calcGPA']);
     Route::post('/change/status',[StudentController::class,'changeStatus']);
-    Route::get('/add/field/{field_name}',[StudentController::class,'addField']);
+    Route::get('/add/field',[StudentController::class,'addField']);
     Route::get('/remove/field/{field_name}',[StudentController::class,'removeField']);
     Route::get('/show/fields',[StudentController::class,'showFields']);
+    Route::get('/showInfo',[StudentController::class,'showInfo']);
     // Route::get('/show/progress/{course_code}',[StudentController::class,'updateProgress']);
 
     // testing draft

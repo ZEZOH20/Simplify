@@ -27,8 +27,7 @@ class CourseResource extends JsonResource
             'staffs'=> AcademicStaffResource::collection($this->whenLoaded('whosResponsible')),
             'prereq'=> CourseResource::collection($this->whenLoaded('prereq')),
             'status'=>$isAdmin ? $this->status:null,
-            
-            
+            'material'=>$this->material,
         ];
     }
 }

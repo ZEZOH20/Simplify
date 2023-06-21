@@ -76,25 +76,19 @@ class FieldController extends Controller
          // dd($request->file('img'));
          $img_file = $request->file('img');
          $img_file_name = $img_file->getClientOriginalName();
-         $img_file->move(public_path('images'), $img_file_name);
+         $img_file->move(public_path('images/field-images/'.$field->name.'/'),$img_file_name);
+            //check old file exists in path (delete if exists)
+            if (File::exists(public_path('images/field-images/'.$field->name.'/'. $field->img))) {
+                $this->deleteFile(public_path('images/field-images/'.$field->name.'/'. $field->img));
+            }
          $field->update(["img" => $img_file_name]);
          return response(['message' => 'file uploaded successfully'], 200);
      }
 
    }
 
-   public function removeImg(string $field_name)
-    {
-      try{
-         $field=Field::findOrFail($field_name);
-      }
-      catch(\Exception $e)
-      {
-         return response(['message'=>'Couldn\'t find a field with such name'],404);
-      }
-        File::delete(public_path('images/') . $field->img);
-        // dd($course->material);
-        $field->update(['img' => NULL]);
-        return response(['message' => 'file deleted successfully'], 200);
-    }
+   public function deleteFile(string $path)
+   {
+       File::delete($path);
+   }
 }
