@@ -30,7 +30,6 @@ class Student extends Model
             'score',
             'term',
             'status',
-            'score'
         )->withTimestamps();
     }
 
@@ -39,11 +38,17 @@ class Student extends Model
             'progress',
             'active',
             'panding',
+            'score'
         )->withTimestamps();
        }
 
     public function term(){
         return $this->hasOne(Term::class);
     }   
+
+    public function recommendation()
+    {
+        return $this->hasMany(Recommendation::class);
+    }
 
 }
