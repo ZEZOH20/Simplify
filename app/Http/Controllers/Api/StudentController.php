@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Events\RemoveFieldEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\ChangeStatusRequest;
+use App\Http\Requests\Student\FieldRequest;
 use App\Http\Requests\UploadRequest;
 use App\Http\Resources\api\CourseResource;
 use App\Http\Resources\StudentFieldResource;
@@ -54,7 +56,6 @@ class StudentController extends Controller
       $difference = $availableCourses->diff($studentRegisteredCourses); //diff between 1 and 2
       return CourseResource::collection($difference);
    }
-
    //??????????????????????????????????????????????? */
    public function activeCourse(Request $request)
    {
@@ -207,18 +208,18 @@ class StudentController extends Controller
       return $course;
    }
 
-   public function addField(string $field_name)
+   public function addField(FieldRequest $request)
    {
       // check for the field existance
       try {
-         $field = Field::findOrFail($field_name);
+         $field = Field::findOrFail($request->field_name);
       } catch (\Exception $e) {
          return response(['message' => 'Couldn\'t find a field with such name'], 404);
       }
       $student = auth()->user()->student;
       // check if the field already exists in the pivot table
-      if (!$student->field()->find($field_name)) {
-         $student->field()->attach($field);
+      if (!$student->field()->find($request->field_name)) {
+         $student->field()->attach($field,["score"=>$request->score]);
       } else {
          return response(['message' => 'Field is already added'], 404);
       }
@@ -242,6 +243,7 @@ class StudentController extends Controller
          return response(['message' => 'This field doesn\'t exist in your profile'], 404);
       }
       $student->field()->detach($field);
+      event(new RemoveFieldEvent());
       return response(['message' => 'Field was removed successfully'], 200);
    }
 
