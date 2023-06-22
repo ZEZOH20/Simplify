@@ -9,7 +9,7 @@ Route::group(['prefix' => 'admin/students', 'middleware' => ['verified', 'auth:s
     Route::post('/addExcelFile',[StudentController::class,'addExcelFile'])->name('admin.addExcelFile');
 });
 Route::group(['prefix' => 'student', 'middleware' => ['verified', 'auth:sanctum']], function () {
-    Route::get('/available/course', [StudentController::class, 'avaliableCourse']);   //, ["except" => ["create", "edit"]]
+    Route::get('/available/course', [StudentController::class, 'avaliableCourse'])->name('avaliable.Course');   //, ["except" => ["create", "edit"]]
     Route::get('/active/course', [StudentController::class, 'activeCourse']);
     Route::post('/register/course', [StudentController::class, 'registerCourse']);
     Route::post('/unRegister/course/{course_code}', [StudentController::class, 'unRegisterCourse']);
