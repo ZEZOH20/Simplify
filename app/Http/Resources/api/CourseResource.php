@@ -3,6 +3,7 @@
 namespace App\Http\Resources\api;
 
 use App\Http\Resources\AcademicStaffResource;
+use App\Http\Resources\CourseStudentPivotResource;
 use App\Models\Recommendation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
