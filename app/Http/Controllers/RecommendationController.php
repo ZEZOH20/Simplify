@@ -132,7 +132,6 @@ class RecommendationController extends Controller
                         $score = $student->field()->where('field_name', $this->field_names[$i])->first()->pivot->score;
                         $final_score = $score * $value;
                         $super_score += $final_score;
-                        echo $final_score."\n";
                         // updating data
                         $rec_row->update([$this->field_names[$i] => $final_score]);
                     }
