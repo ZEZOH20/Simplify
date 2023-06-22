@@ -16,8 +16,10 @@ class CourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $isAdmin = (Auth::check()&&auth()->user()->type == 'admin') ; //check if auth user type admin
-        return [
+        $user = auth()->user();
+        $isAdmin = (Auth::check()&&$user->type == 'admin') ; //check if auth user type admin
+        $route_name=$request->Route()->getName();
+        $default = [
             'course_code'=> $this->course_code,
             'name' => $this->name ,
             'credit_hours' =>$this->credit_hours ,
@@ -29,5 +31,20 @@ class CourseResource extends JsonResource
             'status'=>$isAdmin ? $this->status:null,
             'material'=>$this->material,
         ];
+        $recommendtion =  [
+            'course_code'=> $this->course_code,
+            'name' => $this->name ,
+            'credit_hours' =>$this->credit_hours ,
+            'brief_info'=>$this->brief_info ,
+            "type"=>$this->course_type,
+            "img"=>$this->img,
+            'staffs'=> AcademicStaffResource::collection($this->whenLoaded('whosResponsible')),
+            'prereq'=> CourseResource::collection($this->whenLoaded('prereq')),
+            'status'=>$isAdmin ? $this->status:null,
+            'material'=>$this->material,
+            'score'=>$user->student->id
+        ];
+        return ($route_name == 'avaliable.Course')? $recommendtion : $default;
+       
     }
 }
