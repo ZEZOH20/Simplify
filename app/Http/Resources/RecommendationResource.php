@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Resources\api;
+namespace App\Http\Resources;
 
 use App\Http\Resources\AcademicStaffResource;
+use App\Http\Resources\api\CourseResource;
 use App\Models\Recommendation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
-class CourseResource extends JsonResource
+class RecommendationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +18,13 @@ class CourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $isAdmin = (Auth::check()&&auth()->user()->type == 'admin') ; //check if auth user type admin
-        
-        $default_resources=[
+        $user = auth()->user();
+        $score=Recommendation::where([
+            'course_code'=>$this->course_code,
+            'student_id'=>$user->student->id
+        ])->first()->score;
+        $isAdmin = (Auth::check()&&$user->type == 'admin') ; //check if auth user type admin
+        return [
             'course_code'=> $this->course_code,
             'name' => $this->name ,
             'credit_hours' =>$this->credit_hours ,
@@ -30,8 +35,7 @@ class CourseResource extends JsonResource
             'prereq'=> CourseResource::collection($this->whenLoaded('prereq')),
             'status'=>$isAdmin ? $this->status:null,
             'material'=>$this->material,
-    ];
-        return $default_resources;
-        
+            'score'=>$score
+        ];
     }
 }

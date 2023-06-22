@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\ChangeStatusRequest;
 use App\Http\Requests\Student\FieldRequest;
 use App\Http\Requests\UploadRequest;
+use App\Http\Resources\api\CourseCollection;
 use App\Http\Resources\api\CourseResource;
+use App\Http\Resources\RecommendationResource;
 use App\Http\Resources\StudentFieldResource;
 use App\Models\Course;
 use App\Http\Requests\Student\StudentRegisterCourseRequest;
@@ -54,28 +56,22 @@ class StudentController extends Controller
       // subtract student registered courses finshed and active from availableCourses
       $studentRegisteredCourses = auth()->user()->student->course()->wherePivot('status', '!=', 'failed')->get(); //collection2
       $difference = $availableCourses->diff($studentRegisteredCourses); //diff between 1 and 2
-      return CourseResource::collection($difference);
-   }
+      return RecommendationResource::collection($difference);
+   }  
    //??????????????????????????????????????????????? */
    public function activeCourse(Request $request)
    {
-      //Rather than that :- 
-
-      // $activeCourse = auth()->user()->student->course()->wherePivot('status','active')->get();
-      // return CourseResource::collection($activeCourse);
-
-      // Do that : -
-      $result = (new Filtering($request->query(), 'course_student', [
-         'score',
-         'term',
-         'status',
-         'course_code',
-         'student_id'
-      ]))->start();
-
-
+      // $result = (new Filtering($request->query(), 'course_student', [
+      //    'score',
+      //    'term',
+      //    'status',
+      //    'course_code',
+      //    'student_id'
+      // ]))->start();
       // $result = DB::table('course_student')->where('status', 'finshed')->get();
-      return CourseStudentPivotResource::collection($result);
+      // return CourseStudentPivotResource::collection($result);
+      $courses = auth()->user()->student->course()->with('prereq')->get();
+      return new CourseCollection($courses);
    }
    //??????????????????????????????????????????????????? */
 
@@ -293,6 +289,33 @@ class StudentController extends Controller
    }
    public  function showInfo(){
       $user = auth()->user()->load(['student.term','student.field']);
+      $this->creditCount();
       return new UserResource($user);
+   }
+
+   public function creditCount()
+   {
+      $student=auth()->user()->student;
+      $finished_courses=$student->course()->wherePivot('status','finished')->get();
+      $man_count=0;
+      $elec_count=0;
+
+      foreach($finished_courses as $course)
+      {
+         if($course->course_type=='mandatory')
+         {
+            $man_count+=$course->credit_hours;
+         }
+         elseif($course->course_type=='elective')
+         {
+            $elec_count+=$course->credit_hours;
+         }
+      }
+      $total_credit=$man_count+$elec_count;
+      $student->update([
+         't_credit'=>$total_credit,
+         'elec_sim'=>$elec_count,
+         'man_sim'=>$man_count, 
+      ]);
    }
 }

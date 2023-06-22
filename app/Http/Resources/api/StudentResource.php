@@ -23,8 +23,6 @@ class StudentResource extends JsonResource
             'cgpa'=>$this->cgpa,
             'elec_sim'=>$this->elec_sim,
             'man_sim'=>$this->man_sim,
-            'elec_univ'=>$this->elec_univ,
-            'man_univ'=>$this->man_univ,
             'terms_gpa'=>new TermResource($this->whenLoaded('term')),
             // 'fields_progress'=>FieldResource::collection($this->whenLoaded('field')),    
         ];
