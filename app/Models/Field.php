@@ -25,7 +25,6 @@ class Field extends Model
     return $this->belongsToMany(Student::class,'field_student','field_name','student_id')->withPivot(
         'progress',
         'active',
-        'panding',
         'score',
     )->withTimestamps();
    }

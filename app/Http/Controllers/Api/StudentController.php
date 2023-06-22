@@ -296,26 +296,3 @@ class StudentController extends Controller
       return new UserResource($user);
    }
 }
-
-// public function updateProgress(string $course_code)
-   // {
-   //    $course=Course::findOrfail($course_code);
-   //    $related_field=$course->field()->first();
-   //    // // dd($related_field->name);
-   //    $courses=$related_field->course;
-   //    // // dd($courses);
-   //    // $student_courses=auth()->user()->student->course;
-   //    // // dd($student_courses);
-   //    // // dd($courses->with('students')->get);
-   //    $join_table=DB::table('course_field')
-   //    ->join('course_student','course_field.course_code','=','course_student.course_code')->select('course_student.*','course_field.*');
-   //    // dd($joinTable);      
-   //    $student_Id=auth()->user()->student->id;
-   //    $join_courses=$join_table->where(['student_id'=>$student_Id,'field_name'=>$related_field->name]);
-   //    // dd($joinCourses);
-   //    $finished_courses=$join_courses->where(['status'=>'finished'])->get();
-   //    $finished_courses_count=$finished_courses->count();
-   //    $progress=(($finished_courses_count)/($courses->count()))*100;
-   //    // dd($finishedCoursesCount);
-   //    dd($progress);
-   // }

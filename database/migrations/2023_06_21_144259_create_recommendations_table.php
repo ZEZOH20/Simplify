@@ -1,5 +1,4 @@
 <?php
-
 use App\Models\Field;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('course_code');
-            $fields=Field::all();
-            foreach($fields as $field)
-            {
+            $fields = Field::all();
+            foreach ($fields as $field) {
                 $table->double($field->name)->default(0);
             }
             $table->double('score')->default(0);
