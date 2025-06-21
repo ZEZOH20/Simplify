@@ -1,13 +1,15 @@
 
 ## Clone your project steps
-1. Go to the folder application using cd command on your cmd or terminal.
-1. Run composer install on your cmd or terminal.
-1. Copy .env.example file to .env on the root folder. ...
-1. Open your . ...
-1. Run php artisan key:generate.
-1. Run php artisan migrate.
-1. Run php artisan serve.
-1. Run php artisan db:seed --class=DatabaseSeeder
+1. install composer [setup](https://getcomposer.org/download/)
+2. install Xampp -v 8.1.25 [setup](https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/8.1.25/xampp-linux-x64-8.1.25-0-installer.run/download)
+3. Go to the folder application using cd command on your cmd or terminal.
+4. Run composer install on your cmd or terminal.
+5. Copy .env.example file to .env on the root folder. ...
+6. Open your . ...
+7. Run php artisan key:generate.
+8. Run php artisan migrate.
+9. Run php artisan serve.
+10. Run php artisan db:seed --class=DatabaseSeeder
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
