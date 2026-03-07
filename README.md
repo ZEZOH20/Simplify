@@ -270,7 +270,7 @@ A green **Open Enrollment** button at the bottom allows the admin to open the co
 
 <img src="docs/screenshots/14_attach_professor.png" alt="Attach Professor" width="260"/>
 
-When an admin successfully attaches a professor to a course, a confirmation dialog appears with a green checkmark and the message **"Success — Attached Shimaa Elmorsy"**. Below the dialog, the updated professor list is visible, showing the names and roles of all attached staff (Shimaa Elmorsy, Rasha Montaser, Islam Elkabani, Mohamed El Kholy — all listed as professors). Tapping **Okay** dismisses the dialog.
+When an admin successfully attaches a professor to a course, a confirmation dialog appears with a green checkmark and the message **"Success — Attached Shimaa Elmorsy"**. Below the dialog, the updated professor list is visible, showing the names and roles of all attached staff  — all professors). Tapping **Okay** dismisses the dialog.
 
 ---
 
@@ -465,8 +465,6 @@ A student survey across the SIM department directly shaped the app's feature set
 **SIMplify — Senior Project**
 
 Systems & Information Management Department
-
-*UI/UX Design by Ziad Mohamed Elganzory*
 
 Built with ❤️ for SIM students — *Simplify your Career.*
 
