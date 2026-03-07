@@ -170,28 +170,21 @@ The final step of the password recovery flow. The student sets a new **Password*
 ### 🏠 Home — Tracks Tab
 
 ## System Architecture
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture6.png" width="250" alt="Splash"/>
-  <img src="https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture7.png" width="250" alt="Architecture"/>
-  <img src="https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture8.png" width="250" alt="API Flow"/>
-</p>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture6.png)
 
 The Home screen opens on the **Tracks** tab (14 Tracks total), which is powered by the content-based recommendation algorithm. Each card shows a career track name, a short description of what it prepares the student for, and a **View →** link. Tracks shown here include **Artificial Intelligence** ("Aims for making automated systems that doesn't need any human interaction") and **Business Intelligence** ("Additional Courses for improving the basic knowledge of business programming"). A floating heart icon allows students to save favourite tracks.
 
 ---
 
 ### 📚 Home — Courses Tab
-
-<img src="docs/screenshots/07_home_courses.png" alt="Home Courses" width="260"/>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture7.png)
 
 Switching to the **Courses** tab (55 Courses total) displays all available department courses in a scrollable grid. Each card shows the course name and whether it is **mandatory** or **elective**. Courses visible here include Math (I), Math (II), Introduction to Computing Technology, Mathematics for Computing Science, Physics (I), and Physics (II), each represented by a distinct illustration.
 
 ---
 
 ### 📋 Home — Register Tab
-
-<img src="docs/screenshots/08_home_register.png" alt="Home Register" width="260"/>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture8.png)
 
 The **Register** tab highlights courses available for enrollment this semester (6 shown in this view). The same course grid is displayed, but now courses the student qualifies for — based on prerequisite completion and admin availability settings — are actionable for enrollment or withdrawal. The tab counter updates dynamically as the student registers or drops courses.
 
@@ -199,15 +192,14 @@ The **Register** tab highlights courses available for enrollment this semester (
 
 ### 🎯 Pick Fields
 
-<img src="docs/screenshots/09_pick_fields.png" alt="Pick Fields" width="260"/>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture14.png)
 
 The field selection screen ("Hey, Pick Fields") is the starting point for the recommendation engine. The student has **2 My Favorites** already selected and can browse **14 additional fields** to add. Each field card includes a name and a brief description of what it aims for. Fields visible here include **Artificial Intelligence** and **Cloud Engineering**. The ratings assigned to these fields seed the content-based recommendation matrix that generates personalized course and track suggestions.
 
 ---
 
 ### 👤 Profile — Score Tab
-
-<img src="docs/screenshots/10_profile_score.png" alt="Profile Score" width="260"/>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture9.png)
 
 The **Score** tab on the Profile page (shown here for Admin user "Ziad Hammed") provides a complete academic standing overview:
 
@@ -223,26 +215,21 @@ The **Score** tab on the Profile page (shown here for Admin user "Ziad Hammed") 
 This breakdown gives students a precise understanding of exactly which credit-hour categories they still need to fulfill before graduation.
 
 ---
-
 ### 🎓 Profile — Passed Courses Tab
-
-<img src="docs/screenshots/11_profile_passed.png" alt="Passed Courses" width="260"/>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture10.png)
 
 The **Passed Courses** tab displays all courses the student has successfully completed, presented as a grid of cards. Each card shows the course name and a **GPA badge** (all showing 3 in this view), allowing students to review their historical performance per course at a glance. Courses shown include Mathematics for Computing, Physics (I), Introduction to Probability, Computer Programming, Math (III), and Software Engineering.
 
 ---
-
 ### 📖 Profile — Active Courses Tab
-
-<img src="docs/screenshots/12_profile_active.png" alt="Active Courses" width="260"/>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture11.png)
 
 The **Active Courses** tab lists all courses the student is currently enrolled in for the semester. Each course is displayed as a tile with an illustrative icon. Courses visible in this view include **Math (I)**, **Math (II)**, **Introduction to Computing**, **Physics (II)**, and **Software Requirements**. This tab gives students a quick overview of their current academic workload.
 
 ---
 
 ### 📄 Course Detail & Admin Controls
-
-<img src="docs/screenshots/13_course_detail.png" alt="Course Detail" width="260"/>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture12.png)
 
 The Course Detail page provides full information about a selected course. Shown here for **Math (I)**:
 
@@ -259,46 +246,9 @@ A green **Open Enrollment** button at the bottom allows the admin to open the co
 ---
 
 ### ✅ Attach Professor — Success Dialog
-
-<img src="docs/screenshots/14_attach_professor.png" alt="Attach Professor" width="260"/>
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture13.png)
 
 When an admin successfully attaches a professor to a course, a confirmation dialog appears with a green checkmark and the message **"Success — Attached Shimaa Elmorsy"**. Below the dialog, the updated professor list is visible, showing the names and roles of all attached staff  — all professors). Tapping **Okay** dismisses the dialog.
-
----
-
-## Design Mockups
-
-The following screens represent the high-fidelity Figma UI/UX design mockups created before development, showcasing the intended visual language of the app.
-
-### Landing Page Mockup
-
-<img src="docs/screenshots/d1_landing_mockup.webp" alt="Landing Mockup" width="700"/>
-
-Clean white-centered layout with the SIMplify logo and two primary CTAs (LOG IN / SIGN UP) against the app's signature blue gradient background.
-
----
-
-### Registration Mockup
-
-<img src="docs/screenshots/d2_registration_mockup.webp" alt="Registration Mockup" width="700"/>
-
-Side-by-side view of the **Login** screen (left, with Facebook and Google social auth options) and the **Sign Up** screen (right, collecting student academic identity fields). Designed with rounded input fields and a clear visual hierarchy.
-
----
-
-### Profile Page Mockup
-
-<img src="docs/screenshots/d3_profile_mockup.webp" alt="Profile Mockup" width="700"/>
-
-Three-state profile design showing the **Score** tab (CGPA + Completed Hours progress bars), **Badges** tab (grid of achievement badges for completed courses), and **Survey** tab (displaying the student's recommended specialization with a retake button).
-
----
-
-### Content Catalog Mockup
-
-<img src="docs/screenshots/d4_catalog_mockup.webp" alt="Catalog Mockup" width="700"/>
-
-**Left**: Drill-down view of the Web Development track showing individual technology courses (HTML, CSS, JavaScript) with enrollment status. **Center/Right**: The full Course Catalog grid displaying all available tracks (Front End, Backend, DevOps) with color-coded cards and enrolled student counts.
 
 ---
 
