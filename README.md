@@ -169,7 +169,11 @@ The final step of the password recovery flow. The student sets a new **Password*
 
 ### 🏠 Home — Tracks Tab
 
-<img src="docs/screenshots/06_home_tracks.png" alt="Home Tracks" width="260"/>
+<p align="center">
+  <img src="public/images/Picture6.png" width="250"/>
+  <img src="public/images/Picture7.png" width="250"/>
+  <img src="public/images/Picture8.png" width="250"/>
+</p>
 
 The Home screen opens on the **Tracks** tab (14 Tracks total), which is powered by the content-based recommendation algorithm. Each card shows a career track name, a short description of what it prepares the student for, and a **View →** link. Tracks shown here include **Artificial Intelligence** ("Aims for making automated systems that doesn't need any human interaction") and **Business Intelligence** ("Additional Courses for improving the basic knowledge of business programming"). A floating heart icon allows students to save favourite tracks.
 
