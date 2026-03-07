@@ -143,7 +143,7 @@ The project includes the following design artifacts:
 
 ### 🚀 Splash Screen
 
-<img src="docs/screenshots/01_splash.png" alt="Splash Screen" width="260"/>
+<img src="https://github.com/ZEZOH20/Simplify/tree/main/public/images/Picture6.png" alt="Splash Screen" width="260"/>
 
 The app's entry point displays the **SIMplify logo** centered on a clean white background with the tagline underneath. Two primary action buttons — **Login** and **Sign Up** — guide new and returning users to their respective flows.
 
