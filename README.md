@@ -142,7 +142,7 @@ The project includes the following design artifacts:
 ## App Screens
 
 ### 🚀 Splash Screen
-![Architecture](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/Picture6.png)
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/1.webp)
 
 
 
@@ -151,32 +151,27 @@ The app's entry point displays the **SIMplify logo** centered on a clean white b
 ---
 
 ### 📝 Sign Up
-
-<img src="docs/screenshots/02_signup.png" alt="Sign Up" width="260"/>
+![SignUp](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/3.webp)
 
 The registration screen collects all required student details in a single form: **Name**, **Student Mail**, **Phone Number**, **Student ID**, **Password**, and **Confirm Password**. The form applies real-time front-end validation before submitting to the backend. On success, the user's Bearer token is stored locally to avoid repeated credential prompts in future sessions.
 
 ---
 
 ### ✉️ Email Verification
-
-<img src="docs/screenshots/03_verify_code.png" alt="Verify Code" width="260"/>
+![EmailVerification](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/5.webp)
 
 After registration, the user is directed to a 4-digit OTP entry screen. The code is delivered to the student's registered email or phone number via Vonage. A countdown timer shows how long before the code can be resent ("Resend code after 1:25"), and a **Verify** button submits the code for server-side validation. The OTP is valid for 3 minutes.
 
 ---
 
 ### 🔑 Forgot Password
-
-<img src="docs/screenshots/04_forgot_password.png" alt="Forgot Password" width="260"/>
+![ForgotPassword](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/4.webp)
 
 If a student forgets their password, they enter their registered email address on this screen and tap **Send Code**. The backend generates a random OTP and dispatches it via the Vonage SMS service to trigger the reset flow.
 
 ---
 
 ### 🔒 Reset Password
-
-<img src="docs/screenshots/05_reset_password.png" alt="Reset Password" width="260"/>
 
 The final step of the password recovery flow. The student sets a new **Password** and confirms it in the **Confirm Password** field. Both fields show inline validation errors ("can not be empty") when submitted blank, and the **Reset** button triggers the update on the backend once both fields pass validation.
 
