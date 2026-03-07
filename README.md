@@ -1,6 +1,5 @@
 <div align="center">
 
-<img src="docs/screenshots/01_splash.png" alt="SIMplify Logo" width="220"/>
 
 # SIMplify
 ### *Simplify Your Career*
@@ -15,7 +14,7 @@
 </div>
 
 ---
-
+![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/1.webp)
 ## Table of Contents
 
 - [Overview](#overview)
@@ -140,15 +139,6 @@ The project includes the following design artifacts:
 ---
 
 ## App Screens
-
-### 🚀 Splash Screen
-![Splash](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/1.webp)
-
-
-
-The app's entry point displays the **SIMplify logo** centered on a clean white background with the tagline underneath. Two primary action buttons — **Login** and **Sign Up** — guide new and returning users to their respective flows.
-
----
 
 ### 📝 Sign Up
 ![SignUp](https://raw.githubusercontent.com/ZEZOH20/Simplify/main/public/images/3.webp)
